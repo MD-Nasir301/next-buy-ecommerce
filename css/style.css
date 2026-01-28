@@ -1,0 +1,283 @@
+/* ========== CSS VARIABLES ========== */
+:root {
+  --theme-text-primary: oklab(79.959% 0.05031 0.07065);
+  --theme-text-secondary: rgb(122, 122, 122);
+  --text-gray: rgb(170, 170, 170);
+  --text-black: #221a15;
+  --text-white: #ffffff;
+  --theme-bg-primary: #76675d;
+  --theme-bg-secondary: rgb(33, 37, 41);
+  --bg-white: #ffffff;
+  /* Spacing & Layout */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 32px;
+  --space-xl: 64px;
+  /* Borders & Shadows */
+  --border-radius: 6px;
+  --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+/* ========== RESET & BASE ========== */
+/* Reset default browser styles and set base font */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  overflow: hidden;
+  line-height: 1.6;
+  background: var(--bg-white);
+  color: var(--text-black);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* ========== Theme Custom Classe ========== */
+.theme-bg-primary {
+  background: var(--theme-bg-primary);
+}
+.theme-bg-secondary {
+  background: var(--theme-bg-secondary);
+}
+.text-black {
+  color: var(--text-black);
+}
+.text-white {
+  color: var(--text-white);
+}
+.text-gray {
+  color: var(--text-gray);
+}
+
+.mb {
+  margin-bottom: 5px;
+}
+.fw {
+  font-weight: 900;
+}
+.text-theme {
+  color: var(--theme-text-primary);
+}
+/* ========== TYPOGRAPHY ========== */
+/* Headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0px;
+}
+p {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--theme-text-secondary);
+  line-height: 1px;
+}
+
+/* ========== MAIN CSS START HERE ========== */
+/* Add your custom styles below this line */
+
+/* ===========================================================
+   End of Stylesheet
+   =========================================================== */
+
+main {
+  display: flex;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.aside {
+  width: 350px;
+  height: 95%;
+  background: #833ab4;
+  background: linear-gradient(
+    140deg,
+    rgba(131, 58, 180, 1) 0%,
+    rgba(253, 29, 29, 1) 50%,
+    rgba(136, 252, 69, 1) 100%
+  );
+  padding: 10px;
+}
+/* form area  */
+.form-area {
+  background: #ecebec;
+  background: linear-gradient(
+    306deg,
+    rgba(241, 239, 241, 0.37) 0%,
+    rgba(251, 251, 251, 0.45) 50%,
+    rgba(245, 246, 245, 0.45) 100%
+  );
+  padding: 10px 20px;
+  border-radius: 5px;
+  height: 100%;
+}
+#productForm label {
+  margin-bottom: 3px;
+  padding-left: 5px;
+  color: var(--text-white);
+  font-weight: bold;
+}
+#productForm input,
+#productForm select {
+  width: 100%;
+  margin-bottom: 7px;
+  padding-left: 5px;
+  height: 28px;
+  border: none;
+}
+#productForm input,
+#productForm select:focus {
+  outline: none;
+}
+
+.product-container {
+  flex-grow: 1;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(223, 216, 216) rgb(255, 255, 255);
+}
+
+.no-product-found {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: var(--text-black);
+  margin-top: -100px;
+}
+.no-product-found p {
+  font-size: 22px;
+  font-weight: 600;
+}
+/* card area  */
+.card-area {
+  background: #ffffff;
+  border-radius: 5px;
+  transition: 0.4s;
+}
+.card-area:has(.card-info:hover) {
+  transform: scale(1.03);
+}
+
+.card-img {
+  height: 120px;
+  overflow: hidden;
+  background:
+    linear-gradient(rgba(230, 224, 224, 0.5), rgba(105, 32, 32, 0.7)),
+    url("../img/logo.jpg");
+  background-size: cover;
+  background-position: center;
+}
+.card-img img {
+  max-width: 100%;
+  object-fit: cover;
+  object-position: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+.card-img img:hover {
+  transform: scale(1.1);
+}
+.card-info h5 {
+  color: rgba(0, 0, 128, 0.673);
+  font-weight: 600;
+  height: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  margin-bottom: 10px;
+}
+.card-info .price {
+  color: rgb(91, 75, 75);
+}
+.button-area button {
+  font-size: 13px;
+}
+i.fa-solid {
+  font-size: 15px !important;
+}
+/* footer */
+
+/* skeleton-card ======*/
+.skeleton-card {
+  background: #eee;
+  border-radius: 10px;
+  height: 300px; /* আপনার আসল কার্ডের সমান উচ্চতা */
+  position: relative;
+  overflow: hidden;
+}
+.skeleton-image {
+  width: 100%;
+  height: 120px;
+  background: #ccc;
+  margin-bottom: 10px;
+}
+.skeleton-title {
+  width: 70%;
+  height: 30px;
+  background: #ccc;
+  margin-bottom: 5px;
+}
+.skeleton-price {
+  width: 50%;
+  height: 30px;
+  background: #ccc;
+  margin-bottom: 5px;
+}
+.skeleton-button {
+  width: 30%;
+  height: 30px;
+  background: #ccc;
+  margin-bottom: 5px;
+  margin-left: 25px;
+  border-radius: 10px;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
+/* শিমার বা পালস এনিমেশন */
+.skeleton-card::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 200%;
+  rotate: 20deg;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.5),
+    transparent
+  );
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
