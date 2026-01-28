@@ -1,5 +1,6 @@
 window.addEventListener("DOMContentLoaded", () => {
   let api_url = "https://6973a4f4b5f46f8b5827ea6b.mockapi.io/nbk-bazar";
+  const addTocartBtn = document.getElementById("addToCart");
   const productDisplayArea = document.querySelector(".product-container");
   const productForm = document.getElementById("productForm");
   const formArea = document.getElementById("form-area");
@@ -12,11 +13,14 @@ window.addEventListener("DOMContentLoaded", () => {
   const imageInput = document.getElementById("product-image");
   const submitBtn = document.getElementById("submit");
   const cancelBtn = document.getElementById("cancel");
+  const toastBox = document.getElementById("toast");
   // const noProductFound = document.querySelector(".no-product-found ");
 
   let allProducts = [];
   let filteredProductsArr = [];
+  let cartItems = [];
   let editId = null;
+  let toastTimer;
 
   // Get Form Data and upload to API -----------------------------------***
   productForm.addEventListener("submit", async (e) => {
@@ -70,10 +74,13 @@ window.addEventListener("DOMContentLoaded", () => {
           allProducts = allProducts.filter((p) => p.id != cardId);
           filteredProductsArr = allProducts.filter((p) => p.id != cardId);
           card.remove();
+          let responseData = await res.json();
+          toast(`<p style="color:yellow"> Delete Product </p> 
+                <img style="margin-right: 10px" src="${responseData.image}" width="60px" alt="">
+               Name: <i style="color:red">${responseData.name}</i> <br>
+               
+            `);
           clearForm();
-          setTimeout(() => {
-            alert("Product Deleted");
-          }, 300);
           if (allProducts.length == 0) {
             displayProducts(allProducts);
           }
@@ -106,11 +113,6 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  /**
-   * Fetches all products from the API and updates the allProducts array.
-   * @throws {Error} - If the API request fails.
-   */
-
   // Get all products from API after page load -----------------------------------***
   async function getAllProducts() {
     try {
@@ -121,7 +123,7 @@ window.addEventListener("DOMContentLoaded", () => {
       filteredProductsArr = products;
       setTimeout(() => {
         displayProducts(allProducts);
-      }, 3000);
+      }, 50);
     } catch (error) {
       console.log(error.message);
     }
@@ -141,11 +143,33 @@ window.addEventListener("DOMContentLoaded", () => {
         throw new Error("Failed to upload product====");
       }
       const responseData = await res.json(); // সাকসেস হলে সার্ভার আবার সেই ডাটা পাঠাবে এখানে। সেটা আবার রিটার্ন করতে হবে।
+      !editId
+        ? toast(`<p style="color:yellow"> Added Successfully </p> 
+                    <img style="margin-right: 10px" src="${responseData.image}" width="60px" alt="">
+               <i>Category: ${responseData.category}</i>
+        `)
+        : toast(`<p style="color:yellow"> Update Product </p> 
+                    <img style="margin-right: 10px" src="${responseData.image}" width="60px" alt="">
+               <i>Name: ${responseData.name}</i>
+        `);
+
       return responseData;
     } catch (error) {
       console.log("uploadProduct error", error.message);
     }
   }
+
+  // Add to Cart
+  productDisplayArea.addEventListener("click", (e) => {
+    console.log(e);
+    if (e.target.classList.contains("add-to-cart")) {
+      const itemId = e.target.closest(".card-area").dataset.id;
+      cartItems.push(allProducts.find((p) => p.id == itemId));
+      localStorage.setItem("userCart", JSON.stringify(cartItems))
+    }
+  });
+  // Display Add to cart 
+  
 
   /**------------------------------------------------------------***
    * Displays all products in the product display area
@@ -176,16 +200,14 @@ window.addEventListener("DOMContentLoaded", () => {
                       <span class="size text-danger"> ${p.size ? "Size: " + p.size : ""}</span>
                     </div>
                     <div
-                      class="d-flex button-area justify-content-between gap-1"
+                      class="d-flex button-area justify-content-between"
                     >
-                      <button class="btn bg-dark-subtle fw-bolder">
-                        Add_cart
-                      </button>
+                      <button id="addToCart" class="btn add-to-cart bg-dark-subtle fw-bolder"> Add to cart <span class="item-counter">2</span></button>
                       <button class="btn edit bg-info">
-                        <i class="fa-solid edit text-white fa-edit fs-5"></i>
+                        <i class="fa-solid edit text-white fa-edit "></i>
                       </button>
                       <button class="btn  delete bg-warning">
-                        <i class="fa-solid delete text-danger fa-trash fs-5"></i>
+                        <i class="fa-solid delete text-danger fa-trash "></i>
                       </button>
                     </div>
                   </div>
@@ -206,6 +228,9 @@ window.addEventListener("DOMContentLoaded", () => {
   // Filter products by category -----------------------------------***
   document.getElementById("categoryFilter").addEventListener("change", (e) => {
     const selectedCategory = e.target.value;
+    toast(
+      `Filtered by <b style="color:yellow">${selectedCategory.toUpperCase()}</b>`,
+    );
     if (selectedCategory == "all") {
       filteredProductsArr = [...allProducts];
     } else {
@@ -260,14 +285,13 @@ window.addEventListener("DOMContentLoaded", () => {
   // Search Products -----------------------------------***
   document.getElementById("searchProduct").addEventListener("input", (e) => {
     const searchValue = e.target.value;
-
+    document.getElementById("categoryFilter").value = "all";
+    toast("Searching across all categories...");
     const searchProducts = allProducts.filter((p) =>
-      p.price.toLowerCase().includes(searchValue.toLowerCase()),
+      p.name.toLowerCase().includes(searchValue.toLowerCase()),
     );
     displayProducts(searchProducts);
   });
-
-  cancelBtn.addEventListener("click", clearForm);
 
   function clearForm() {
     productForm.reset();
@@ -278,14 +302,14 @@ window.addEventListener("DOMContentLoaded", () => {
     editId = null;
   }
 
-function showSkeletons() {
-  productDisplayArea.innerHTML = ""; // আগের সব পরিষ্কার করুন
-  let skeletonHTML = ""; // সব কোড এখানে জমাবো
+  function showSkeletons() {
+    productDisplayArea.innerHTML = ""; // আগের সব পরিষ্কার করুন
+    let skeletonHTML = ""; // সব কোড এখানে জমাবো
 
-  for (let i = 0; i < 8; i++) {
-    skeletonHTML += `
+    for (let i = 0; i < 8; i++) {
+      skeletonHTML += `
       <div class="col-md-3 mb-4">
-        <div class="skeleton-card">
+        <div class="skeleton-card shadow">
           <div class="skeleton-image"></div>
           <div class="skeleton-title"></div>
           <div class="skeleton-price"></div>
@@ -293,9 +317,21 @@ function showSkeletons() {
         </div>
       </div>
     `;
+    }
+    productDisplayArea.innerHTML = skeletonHTML; // একবারে সব বসিয়ে দিন
   }
-  productDisplayArea.innerHTML = skeletonHTML; // একবারে সব বসিয়ে দিন
-  console.log(skeletonHTML);
-}
 
+  function toast(msg) {
+    clearTimeout(toastTimer);
+    toastBox.classList.remove("show");
+    toastBox.innerHTML = msg;
+    setTimeout(() => {
+      toastBox.classList.add("show");
+    }, 10);
+    toastTimer = setTimeout(() => {
+      toastBox.classList.remove("show");
+    }, 4000);
+  }
+
+  cancelBtn.addEventListener("click", clearForm);
 });

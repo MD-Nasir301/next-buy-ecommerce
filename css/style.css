@@ -94,6 +94,60 @@ p {
    End of Stylesheet
    =========================================================== */
 
+/* nav area  */
+.cart-wrapper {
+  position: relative; /* ড্রপডাউন পজিশন করার জন্য */
+    cursor: pointer;
+}
+.cart-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 270px;
+  background: white;
+  color: black;
+  display: none; 
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 1000;
+}
+.cart-wrapper:hover .cart-dropdown {
+  display: block;
+}
+ul.cart-items-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.cart-item {
+  padding: 10px 0;
+  margin-bottom: 10px;
+  background: rgba(243, 241, 241, 0.566);
+  transition: .3s;
+}
+.cart-item:hover {
+  background: rgba(244, 121, 121, 0.566);
+}
+.cart-item img {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #ea0c0c;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+.cart-footer {
+  border-top: 1px solid #e8dddd;
+  padding: 10px 0;
+  text-align: center;
+  font-weight: 600;
+}
+.cart-footer p {
+ font-size: 16px;
+ padding: 5px 0; 
+ font-weight: bold;
+}
+
+
 main {
   display: flex;
   flex-grow: 1;
@@ -280,4 +334,25 @@ i.fa-solid {
   100% {
     transform: translateX(100%);
   }
+}
+
+/* toast area  */
+.toast-box {
+  position: fixed;
+  bottom: 40px;
+  right: -300px;
+  background-color: #333;
+  color: #fff;
+  padding: 15px 25px;
+  border-radius: 8px;
+  font-size: 16px;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  min-width: 200px;
+  border-left: 5px solid #28a745;
+  transition: right 0.1 s ease-in-out;
+}
+.toast-box.show {
+  right: 20px;
+  transition: right 0.5s ease-in-out;
 }

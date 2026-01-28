@@ -78,10 +78,47 @@
             </div>
             <div class="col-2">
               <div
-                class="my-cart d-flex justify-content-center h-100 gap-2 text-white align-items-center"
+                class="cart-wrapper d-flex justify-content-center h-100 gap-2 text-white align-items-center"
               >
-                <i class="fa-solid fa-cart-shopping bg fs-5 text-theme"></i>
-                <span class="d-inline-block cart-count fs-5 fw">0</span>
+                <div class="cart-trigger">
+                  <i class="fa-solid fa-cart-shopping bg fs-5 text-theme"></i>
+                  <span class="cart-badge d-inline-block fs-5 fw">0</span>
+                </div>
+                <div class="cart-dropdown shadow">
+                  <ul class="cart-items-list">
+                    <li class="cart-item d-flex align-items-center">
+                      <img
+                        src="img/logo.jpg"
+                        class="cart-item-img"
+                        alt="product"
+                      />
+                      <div class="cart-item-details w-100 gap-3 d-flex">
+                        <span class="cart-item-name">Product Name</span>
+                        <span class="fw-bold cart-item-price">$100</span>
+                      </div>
+                      <button class="btn btn-close"></button>
+                    </li>
+                    <li class="cart-item d-flex align-items-center">
+                      <img
+                        src="img/blog-post-03.jpg"
+                        class="cart-item-img"
+                        alt="product"
+                      />
+                      <div class="cart-item-details w-100 gap-3 d-flex">
+                        <span class="cart-item-name">Product Name</span>
+                        <span class="fw-bold cart-item-price">$100</span>
+                      </div>
+                      <button class="btn btn-close"></button>
+                    </li>
+                  </ul>
+
+                  <div class="cart-footer mt-4">
+                    <p>Total: <span id="cartTotal">$0</span></p>
+                    <button class="btn btn-sm btn-primary w-100">
+                      Checkout
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="col-4">
@@ -218,9 +255,10 @@
         </div>
       </div>
     </main>
-    <!-- Main End ================================================ -->
 
-    <!-- Footer Start ============================================ -->
+    <!-- Main End ================================================ -->
+    <!-- Footer Start 
+    ============================================ -->
     <footer onclick="alertdey()" class="sticky-bottom p-2 theme-bg-primary">
       <div class="container-fluid">
         <div class="row">
@@ -233,16 +271,7 @@
       </div>
     </footer>
 
-    <!-- <div class="row">
-      <div class="col-md-3">
-        <div class="skeleton-card">
-          <div class="skeleton-image"></div>
-          <div class="skeleton-title"></div>
-          <div class="skeleton-price"></div>
-          <div class="skeleton-button"></div>
-        </div>
-      </div>
-    </div> -->
+    <div id="toast" class="toast-box">Product Updated Successfully!</div>
 
     <!-- Footer End ============================================== -->
 
