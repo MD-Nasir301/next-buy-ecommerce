@@ -1,7 +1,10 @@
 window.addEventListener("DOMContentLoaded", () => {
   let api_url = "https://6973a4f4b5f46f8b5827ea6b.mockapi.io/nbk-bazar";
-  const addTocartBtn = document.getElementById("addToCart");
+
+  const cartDiplayWrapper = document.querySelector(".cart-items-list");
   const productDisplayArea = document.querySelector(".product-container");
+  const cartBadgeUI = document.getElementById("cartBadge");
+  const cartTotalUI = document.getElementById("cartTotal");
   const productForm = document.getElementById("productForm");
   const formArea = document.getElementById("form-area");
   const nameInput = document.getElementById("product-name");
@@ -14,86 +17,139 @@ window.addEventListener("DOMContentLoaded", () => {
   const submitBtn = document.getElementById("submit");
   const cancelBtn = document.getElementById("cancel");
   const toastBox = document.getElementById("toast");
-  // const noProductFound = document.querySelector(".no-product-found ");
 
   let allProducts = [];
-  let filteredProductsArr = [];
-  let cartItems = [];
+  let filteredArr = [];
+  let cartItems = JSON.parse(localStorage.getItem("userCart") || "[]");
   let editId = null;
   let toastTimer;
+  let allCardElements = [];
 
-  // Get Form Data and upload to API -----------------------------------***
+  async function init() {
+    await getAllProducts();
+    syncCart();
+  }
+  init();
+
+  // Get all products from API after page load -----------------------------------***
+  async function getAllProducts() {
+    try {
+      showSkeletons();
+      const res = await fetch(api_url);
+      const products = await res.json();
+      allProducts = products;
+      filteredArr = products;
+
+      displayProducts(allProducts);
+      gsap.fromTo(
+        ".card-area",
+        {
+          x: 20,
+          duration: 0.3,
+          ease: "linear",
+          opacity: 1,
+          stagger: 0.1,
+        },
+        {
+          x: 0,
+          duration: 0.3,
+          ease: "linear",
+          stagger: 0.2,
+        },
+      );
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+  // Get "Form_Data" and send to add new product and edit product to API -----------------------------------***
   productForm.addEventListener("submit", async (e) => {
     e.preventDefault();
+
+    submitBtn.setAttribute("disabled", true);
     const formData = new FormData(productForm);
     const data = Object.fromEntries(formData);
     data.createdAt = new Date().toISOString();
+
     try {
       const responseData = await uploadProduct(data);
-      let editFilteredIndex = filteredProductsArr.findIndex(
+      let filterArrIndex = filteredArr.findIndex(
         (p) => p.id == editId,
       );
+
       if (editId) {
         let editIndex = allProducts.findIndex((p) => p.id == editId);
         allProducts[editIndex] = responseData;
-        filteredProductsArr[editFilteredIndex] = responseData;
+        filteredArr[filterArrIndex] = responseData;
         productForm.reset();
+        syncCart();
+        //setTimeout(() => displayCartItems(), 5000);
       } else {
         allProducts.push(responseData);
       }
+
       const currentCategory = document.getElementById("categoryFilter").value;
       if (currentCategory == "all" || currentCategory === "") {
-        filteredProductsArr = [...allProducts];
+        filteredArr = [...allProducts];
         displayProducts(allProducts);
       } else if (
         currentCategory.toLowerCase() === data.category.toLowerCase()
       ) {
         !editId
-          ? filteredProductsArr.push(responseData)
-          : (filteredProductsArr[editFilteredIndex] = responseData);
-        displayProducts(filteredProductsArr);
+          ? filteredArr.push(responseData)
+          : (filteredArr[filterArrIndex] = responseData);
+        displayProducts(filteredArr);
       }
+
       clearForm();
+      submitBtn.removeAttribute("disabled");
     } catch (error) {
       console.log(error.message);
     }
   });
 
-  //Item Delete From API and UI ------------------------------------***
-  productDisplayArea.addEventListener("click", async (e) => {
-    if (e.target.classList.contains("delete")) {
-      const card = e.target.closest(".card-area");
-      const cardId = card.dataset.id;
-      let confirmation = confirm("Are you sure to delete?" + cardId);
-      if (!confirmation) return;
-      try {
-        const res = await fetch(`${api_url}/${cardId}`, {
-          method: "DELETE",
-        });
-        if (res.ok) {
-          allProducts = allProducts.filter((p) => p.id != cardId);
-          filteredProductsArr = allProducts.filter((p) => p.id != cardId);
-          card.remove();
-          let responseData = await res.json();
-          toast(`<p style="color:yellow"> Delete Product </p> 
-                <img style="margin-right: 10px" src="${responseData.image}" width="60px" alt="">
-               Name: <i style="color:red">${responseData.name}</i> <br>
-               
-            `);
-          clearForm();
-          if (allProducts.length == 0) {
-            displayProducts(allProducts);
-          }
-        }
-      } catch (error) {
-        console.error("Something Wrong", error);
+  // Add new product or update to API -----------------------------------***
+  async function uploadProduct(data) {
+    try {
+      const res = await fetch(editId ? `${api_url}/${editId}` : api_url, {
+        method: editId ? "PUT" : "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) {
+        throw new Error("Failed to upload product====");
       }
-    }
-  });
+      const responseData = await res.json();
+      !editId
+        ? toast(`<p style="color:yellow"> Added Successfully </p> 
+                    <img style="margin-right: 10px" src="${responseData.image}" width="60px" alt="">
+               <i>Category: ${responseData.category}</i>
+        `)
+        : toast(`<p style="color:yellow"> Update Product </p> 
+                    <img style="margin-right: 10px" src="${responseData.image}" width="60px" alt="">
+               <i>Name: ${responseData.name}</i>
+        `);
 
-  // Edit data
+      return responseData;
+    } catch (error) {
+      console.log("uploadProduct error", error.message);
+    }
+  }
+
+  // Edit data --------------------------------------------***
   productDisplayArea.addEventListener("click", (e) => {
     if (e.target.classList.contains("edit")) {
+      const allCards = document.querySelectorAll(".card");
+      allCardElements.push(...allCards);
+      allCards.forEach((singleCard) => {
+        singleCard.classList.remove("shadow");
+        singleCard.style.opacity = 0.3;
+      });
+      card = e.target.closest(".card");
+      card.style.boxShadow = "#f94007 3px 5px 30px 6px";
+      card.style.opacity = 1;
+
       const cardId = e.target.closest(".card-area").dataset.id;
       const editProduct = allProducts.find((p) => p.id == cardId);
       const { name, price, discount, category, stock, size, image } =
@@ -113,63 +169,153 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Get all products from API after page load -----------------------------------***
-  async function getAllProducts() {
-    try {
-      showSkeletons();
-      const res = await fetch(api_url);
-      const products = await res.json();
-      allProducts = products;
-      filteredProductsArr = products;
-      setTimeout(() => {
-        displayProducts(allProducts);
-      }, 50);
-    } catch (error) {
-      console.log(error.message);
-    }
-  }
-  getAllProducts();
-  // Add product to API -----------------------------------***
-  async function uploadProduct(data) {
-    try {
-      const res = await fetch(editId ? `${api_url}/${editId}` : api_url, {
-        method: editId ? "PUT" : "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
+  //Item Delete From API and UI ------------------------------------***
+  productDisplayArea.addEventListener("click", async (e) => {
+    if (e.target.classList.contains("delete")) {
+      const card = e.target.closest(".card-area");
+      const cardId = card.dataset.id;
+      const itemData = allProducts.find((p) => p.id == cardId);
+      Swal.fire({
+        title: "Are you sure to delete this product?",
+        html: `<img style="border-radius: 10px" src="${itemData.image}" width="100px" alt=""> <br> <br> <b>${itemData.name}</b> <br> <b>Price: ${itemData.price}</b>`,
+        text: "You won't be able to revert this!",
+        width: "400px",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: "Deleting...",
+            width: "300px",
+            allowOutsideClick: false,
+            didOpen: () => {
+              Swal.showLoading();
+            },
+          });
+
+          try {
+            const res = await fetch(`${api_url}/${cardId}`, {
+              method: "DELETE",
+            });
+            if (res.ok) {
+              allProducts = allProducts.filter((p) => p.id != cardId);
+              filteredArr = allProducts.filter((p) => p.id != cardId);
+              card.remove();
+              clearForm();
+              allProducts.length == 0 && displayProducts(allProducts);
+
+              let responseData = await res.json();
+              toast(`<p style="color:yellow"> Delete Product </p> 
+                <img style="margin-right: 10px" src="${responseData.image}" width="60px" alt="">
+               Name: <i style="color:red">${responseData.name}</i> <br>
+            `);
+
+              Swal.fire({
+                title: "Deleted!",
+                icon: "success",
+                width: "400px",
+                timer: 1000,
+                timerProgressBar: true,
+                showConfirmButton: false,
+              });
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Something went wrong!",
+              });
+            }
+          } catch (error) {
+            console.error("Something Wrong", error);
+          }
+        }
       });
-      if (!res.ok) {
-        throw new Error("Failed to upload product====");
-      }
-      const responseData = await res.json(); // সাকসেস হলে সার্ভার আবার সেই ডাটা পাঠাবে এখানে। সেটা আবার রিটার্ন করতে হবে।
-      !editId
-        ? toast(`<p style="color:yellow"> Added Successfully </p> 
-                    <img style="margin-right: 10px" src="${responseData.image}" width="60px" alt="">
-               <i>Category: ${responseData.category}</i>
-        `)
-        : toast(`<p style="color:yellow"> Update Product </p> 
-                    <img style="margin-right: 10px" src="${responseData.image}" width="60px" alt="">
-               <i>Name: ${responseData.name}</i>
-        `);
-
-      return responseData;
-    } catch (error) {
-      console.log("uploadProduct error", error.message);
-    }
-  }
-
-  // Add to Cart
-  productDisplayArea.addEventListener("click", (e) => {
-    console.log(e);
-    if (e.target.classList.contains("add-to-cart")) {
-      const itemId = e.target.closest(".card-area").dataset.id;
-      cartItems.push(allProducts.find((p) => p.id == itemId));
-      localStorage.setItem("userCart", JSON.stringify(cartItems))
     }
   });
-  // Display Add to cart 
-  
+
+  // Add to Cart --------------------------------------=======================================-----***
+  productDisplayArea.addEventListener("click", (e) => {
+    if (e.target.classList.contains("add-to-cart")) {
+      const itemId = e.target.closest(".card-area").dataset.id;
+
+      let selectedProduct = allProducts.find((p) => p.id == itemId);
+      let productInCart = cartItems.find((p) => p.id == selectedProduct.id);
+      if (productInCart) {
+        productInCart.quantity += 1;
+      } else {
+        selectedProduct.quantity = 1;
+        cartItems.push(selectedProduct);
+      }
+      localStorage.setItem("userCart", JSON.stringify(cartItems));
+      displayCartItems();
+    }
+  });
+  document.querySelector(".cart-items-list").addEventListener("click", (e) => {
+    if (e.target.classList.contains("cart-item-remove")) {
+      const itemId = e.target.closest(".cart-item").dataset.id;
+      cartItems = cartItems.filter((p) => p.id != itemId);
+      localStorage.setItem("userCart", JSON.stringify(cartItems));
+      displayCartItems();
+    }
+  });
+
+  // Display Add to cart
+  async function displayCartItems() {
+    let cartHtml = cartItems
+      .map((p) => {
+        return `
+           <li data-id=${p.id} class="cart-item d-flex align-items-center">
+            <img
+                  src="${p.image}"
+                        class="cart-item-img"
+                        alt="product"
+                      />
+                      <div class="cart-item-details d-flex justify-content-between w-100  d-flex">
+                        <span class="cart-item-name">${p.name}</span>
+                        <span class="fw-bold cart-item-name"> ${p.price} x <input class="quantity-input" data-id="${p.id}" style="width: 45px; background: none; border: none; padding: 5px" min="1" max="99" value="${p.quantity}" type="number"> = </span>
+                        <span class="fw-bold cart-item-price">Tk.  ${p.quantity * p.price}</span>
+                      </div>
+                      <button class="cart-item-remove ms-4 btn btn-close"></button>
+                    </li>
+      `;
+      })
+      .join("");
+
+    cartDiplayWrapper.innerHTML = cartHtml;
+    cartBadgeUI.innerText = cartItems.length;
+    cartTotalUI.innerText = cartTotal(cartItems);
+  }
+  displayCartItems();
+
+  // Cart Total
+  function cartTotal(items) {
+    return items.reduce((acc, p) => acc + Number(p.price) * p.quantity, 0);
+  }
+
+  function syncCart() {
+    cartItems = cartItems.map((item) => {
+      const updatedProduct = allProducts.find((p) => p.id == item.id);
+      if (updatedProduct) {
+        return { ...updatedProduct, quantity: item.quantity };
+      }
+      return item;
+    });
+    localStorage.setItem("userCart", JSON.stringify(cartItems));
+  }
+
+  document.querySelector(".cart-items-list").addEventListener("change", (e) => {
+    if (e.target.classList.contains("quantity-input")) {
+      let itemId = e.target.dataset.id;
+      let newQuantity = Number(e.target.value);
+      cartItems = cartItems.map((p) =>
+        p.id == itemId ? { ...p, quantity: newQuantity } : p,
+      );
+      localStorage.setItem("userCart", JSON.stringify(cartItems));
+      displayCartItems();
+    }
+  });
 
   /**------------------------------------------------------------***
    * Displays all products in the product display area
@@ -202,7 +348,7 @@ window.addEventListener("DOMContentLoaded", () => {
                     <div
                       class="d-flex button-area justify-content-between"
                     >
-                      <button id="addToCart" class="btn add-to-cart bg-dark-subtle fw-bolder"> Add to cart <span class="item-counter">2</span></button>
+                      <button id="addToCart" class="btn add-to-cart bg-dark-subtle fw-bolder"> Add to cart </button>
                       <button class="btn edit bg-info">
                         <i class="fa-solid edit text-white fa-edit "></i>
                       </button>
@@ -232,22 +378,22 @@ window.addEventListener("DOMContentLoaded", () => {
       `Filtered by <b style="color:yellow">${selectedCategory.toUpperCase()}</b>`,
     );
     if (selectedCategory == "all") {
-      filteredProductsArr = [...allProducts];
+      filteredArr = [...allProducts];
     } else {
-      filteredProductsArr = allProducts.filter(
+      filteredArr = allProducts.filter(
         (p) => p.category.toLowerCase() == selectedCategory.toLowerCase(),
       );
     }
-    displayProducts(filteredProductsArr);
+    displayProducts(filteredArr);
   });
 
   // Sort Products by date and price -----------------------------------***
   document.getElementById("sort").addEventListener("change", (e) => {
     const selectedOption = e.target.value;
-    const copyForSortProducts = [...filteredProductsArr];
+    const copyForSortProducts = [...filteredArr];
 
     if (selectedOption == "default") {
-      displayProducts(filteredProductsArr);
+      displayProducts(filteredArr);
       return;
     }
     if (selectedOption == "newest") {
@@ -286,11 +432,13 @@ window.addEventListener("DOMContentLoaded", () => {
   document.getElementById("searchProduct").addEventListener("input", (e) => {
     const searchValue = e.target.value;
     document.getElementById("categoryFilter").value = "all";
-    toast("Searching across all categories...");
     const searchProducts = allProducts.filter((p) =>
       p.name.toLowerCase().includes(searchValue.toLowerCase()),
     );
     displayProducts(searchProducts);
+  });
+  document.getElementById("searchProduct").addEventListener("click", (e) => {
+    toast("Searching across all categories...");
   });
 
   function clearForm() {
@@ -300,6 +448,10 @@ window.addEventListener("DOMContentLoaded", () => {
     cancelBtn.style.display = "none";
     formArea.style.background = "";
     editId = null;
+    allCardElements.forEach((singleCard) => {
+      singleCard.classList.add("shadow");
+      singleCard.style.opacity = 1;
+    });
   }
 
   function showSkeletons() {
@@ -334,4 +486,32 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   cancelBtn.addEventListener("click", clearForm);
+
+  //====================================
+  // gsap animations here
+
+  gsap.from(".logo", {
+    scale: 0,
+    duration: 1,
+    ease: "power4.out",
+    scale: 0,
+  });
+  gsap.from(".fa-cart-shopping", {
+    y: "-200%",
+    duration: 1,
+    ease: "power4.out",
+    scale: 0,
+  });
+
+  let cardAnimation = gsap.from(".card-area", {
+    y: "-200%",
+    duration: 2,
+    ease: "power4.out",
+    scale: 0,
+    delay: 0.5,
+    stagger: 0.5,
+    paused: true,
+  });
+
+  //Last Line
 });

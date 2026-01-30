@@ -59,6 +59,7 @@
     </a>
 
     <!-- Header Start  ============================================ -->
+
     <header class="bg-danger position-fixed w-100 sticky-top p-2">
       <!-- Search filter short pagination -->
       <nav>
@@ -82,36 +83,12 @@
               >
                 <div class="cart-trigger">
                   <i class="fa-solid fa-cart-shopping bg fs-5 text-theme"></i>
-                  <span class="cart-badge d-inline-block fs-5 fw">0</span>
+                  <span id="cartBadge" class="cart-badge d-inline-block fs-5 fw"
+                    >0</span
+                  >
                 </div>
                 <div class="cart-dropdown shadow">
-                  <ul class="cart-items-list">
-                    <li class="cart-item d-flex align-items-center">
-                      <img
-                        src="img/logo.jpg"
-                        class="cart-item-img"
-                        alt="product"
-                      />
-                      <div class="cart-item-details w-100 gap-3 d-flex">
-                        <span class="cart-item-name">Product Name</span>
-                        <span class="fw-bold cart-item-price">$100</span>
-                      </div>
-                      <button class="btn btn-close"></button>
-                    </li>
-                    <li class="cart-item d-flex align-items-center">
-                      <img
-                        src="img/blog-post-03.jpg"
-                        class="cart-item-img"
-                        alt="product"
-                      />
-                      <div class="cart-item-details w-100 gap-3 d-flex">
-                        <span class="cart-item-name">Product Name</span>
-                        <span class="fw-bold cart-item-price">$100</span>
-                      </div>
-                      <button class="btn btn-close"></button>
-                    </li>
-                  </ul>
-
+                  <ul class="cart-items-list"></ul>
                   <div class="cart-footer mt-4">
                     <p>Total: <span id="cartTotal">$0</span></p>
                     <button class="btn btn-sm btn-primary w-100">
@@ -282,6 +259,13 @@
       integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
       crossorigin="anonymous"
     ></script>
+
+    <!-- Sweet Alert JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Gsap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
 
     <!-- Owl Carousel 2 JS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

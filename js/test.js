@@ -1,10 +1,37 @@
+let a = [
+  {
+    id: 10,
+  },
+  {
+    id: 2,
+  },
+  {
+    id: 1,
+  },
+  {
+    id: 2,
+  },
+  {
+    id: 1,
+  },
+];
+
+let b = [];
 
 
-let a = 2
+console.log(b.push(5));
+console.log(b.push(5));
+console.log(b.push(5));
+console.log(b.push(5));
+console.log(b.push(5));
+console.log(b);
 
-if (a) {
-    console.log("a is true")
-}else{
-    console.log("a is false")
+
+let c = {
+  d : 5
 }
-console.log("hello")
+let d = 6
+
+c = {d}
+
+console.log(c)
