@@ -5,6 +5,7 @@ window.addEventListener("DOMContentLoaded", () => {
   const productDisplayArea = document.querySelector(".product-container");
   const cartBadgeUI = document.getElementById("cartBadge");
   const cartTotalUI = document.getElementById("cartTotal");
+  const sortEl = document.getElementById("sort");
   const productForm = document.getElementById("productForm");
   const formArea = document.getElementById("form-area");
   const nameInput = document.getElementById("product-name");
@@ -278,10 +279,15 @@ if (editId) {
       let selectedProduct = allProducts.find((p) => p.id == itemId);
       let productInCart = cartItems.find((p) => p.id == selectedProduct.id);
       if (productInCart) {
+        let productInCartIndex = cartItems.findIndex(
+          (p) => p.id == productInCart.id,
+        );
+        cartItems.splice(productInCartIndex, 1); // প্রোডাক্টটি সাবার উপরে দেখানোর জন্য প্রথমে অ্যারে থেকে রিমোভ করা হচ্ছে
         productInCart.quantity += 1;
+        cartItems.unshift(productInCart);
       } else {
         selectedProduct.quantity = 1;
-        cartItems.push(selectedProduct);
+        cartItems.unshift(selectedProduct);
       }
       localStorage.setItem("userCart", JSON.stringify(cartItems));
       displayCartItems();
@@ -370,9 +376,8 @@ if (editId) {
     }
   });
 
-  /**------------------------------------------------------------***
-   * Displays all products in the product display area
-   * @param {Array} products - An array of product objects @returns {void} - No return **/
+  //---- Displays all products in the product display area-------------------------------------------------------***
+
   async function displayProducts(products) {
     let html = products
       .map((p) => {
@@ -434,6 +439,7 @@ if (editId) {
     .getElementById("categoryFilter")
     .addEventListener("change", function filterProducts(e) {
       const selectedCategory = e.target.value;
+      sortEl.value = "default";
       toast(
         `Filtered by <b style="color:yellow">${selectedCategory.toUpperCase()}</b>`,
       );
@@ -448,7 +454,7 @@ if (editId) {
     });
 
   // Sort Products by date and price -----------------------------------***
-  document.getElementById("sort").addEventListener("change", (e) => {
+  sortEl.addEventListener("change", (e) => {
     const selectedOption = e.target.value;
     const copyForSortProducts = [...filteredArr];
 
