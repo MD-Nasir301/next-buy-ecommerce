@@ -103,7 +103,7 @@ p {
   position: absolute;
   top: 100%;
   right: -100px;
-  width: 450px;
+  width: 400px;
   background: white;
   color: black;
   display: none;
@@ -119,15 +119,16 @@ ul.cart-items-list {
   margin: 0;
   padding: 0;
   overflow-y: auto;
+  overflow-x: hidden;
   max-height: 365px;
   scrollbar-width: thin;
 }
 .cart-item {
-  padding: 10px 0;
   margin-bottom: 10px;
   background: rgba(143, 174, 251, 0.086);
   border-radius: 5px;
   transition: 0.3s;
+  padding: 5px 0;
 }
 .cart-item:hover {
   background: rgba(244, 121, 121, 0.566);
@@ -230,7 +231,6 @@ main {
   background: #ffffff;
   border-radius: 5px;
   transition: 0.4s;
- 
 }
 .card-area:has(.card-info:hover) {
   transform: scale(1.03);
@@ -363,5 +363,3 @@ i.fa-solid {
   right: 20px;
   transition: right 0.5s ease-in-out;
 }
-
-

@@ -308,19 +308,30 @@ if (editId) {
     let cartHtml = cartItems
       .map((p) => {
         return `
-           <li data-id=${p.id} class="cart-item d-flex align-items-center">
-            <img
-                  src="${p.image}"
-                        class="cart-item-img"
-                        alt="product"
-                      />
-                      <div class="cart-item-details d-flex justify-content-between w-100  d-flex">
-                        <span class="cart-item-name">${p.name}</span>
-                        <span class="fw-bold cart-item-name"> ${p.price} x <input class="quantity-input" data-id="${p.id}" style="width: 45px; background: none; border: none; padding: 5px" min="1" max="99" value="${p.quantity}" type="number"> = </span>
-                        <span class="fw-bold cart-item-price">Tk.  ${p.quantity * p.price}</span>
-                      </div>
-                      <button class="cart-item-remove ms-4 btn btn-close"></button>
-                    </li>
+<li data-id="${p.id}" class="cart-item row align-items-center">
+      <div class="col-md-2">
+        <img src="${p.image}" class="cart-item-img" alt="product" />
+      </div>
+      <div class="col-md-4">
+        <span class="cart-item-name">${p.name}</span>
+      </div>
+      <div class="col-md-3">
+          Q:
+          <input
+            class="quantity-input"
+            data-id="${p.id}"
+            style="width:45px; background: none; border: none; padding: 5px"
+            min="1"
+            max="99"
+            value="${p.quantity}"
+            type="number"
+          />
+      </div>
+      <div class="col-md-3 d-flex">
+        <span class="fw-bold cart-item-price">${p.quantity * p.price}/= </span>
+        <button class="cart-item-remove  btn btn-close"></button>
+      </div>
+    </li>
       `;
       })
       .join("");
