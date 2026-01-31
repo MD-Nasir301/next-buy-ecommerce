@@ -9,6 +9,7 @@ window.addEventListener("DOMContentLoaded", () => {
   const formArea = document.getElementById("form-area");
   const nameInput = document.getElementById("product-name");
   const priceInput = document.getElementById("product-price");
+  const newPriceInput = document.getElementById("product-new-price");
   const discountInput = document.getElementById("product-discount");
   const categoryInput = document.getElementById("product-category");
   const stockInput = document.getElementById("product-stock");
@@ -186,10 +187,11 @@ if (editId) {
 
       const cardId = e.target.closest(".card-area").dataset.id;
       const editProduct = allProducts.find((p) => p.id == cardId);
-      const { name, price, discount, category, stock, size, image } =
+      const { name, price, newPrice, discount, category, stock, size, image } =
         editProduct;
       nameInput.value = name;
       priceInput.value = price;
+      newPriceInput.value = newPrice;
       discountInput.value = discount;
       categoryInput.value = category;
       stockInput.value = stock;
@@ -248,7 +250,6 @@ if (editId) {
                 <img src="${responseData.image}" width="60px" alt="">
                Name: <i style="color:red">${responseData.name}</i> <br>
             `);
-
               Swal.fire({
                 title: "Deleted!",
                 icon: "success",
@@ -306,7 +307,9 @@ if (editId) {
   // Display Add to cart
   async function displayCartItems() {
     let cartHtml = cartItems
+
       .map((p) => {
+        let price = p.newPrice > 0 ? p.newPrice : p.price;
         return `
 <li data-id="${p.id}" class="cart-item row align-items-center">
       <div class="col-md-2">
@@ -315,7 +318,7 @@ if (editId) {
       <div class="col-md-4">
         <span class="cart-item-name">${p.name}</span>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-2 p-0">
           Q:
           <input
             class="quantity-input"
@@ -327,8 +330,8 @@ if (editId) {
             type="number"
           />
       </div>
-      <div class="col-md-3 d-flex">
-        <span class="fw-bold cart-item-price">${p.quantity * p.price}/= </span>
+      <div class="col-md-4 d-flex  justify-content-between ">
+        <span class="fw-bold cart-item-price">${p.quantity * price} /= </span>
         <button class="cart-item-remove  btn btn-close"></button>
       </div>
     </li>
@@ -381,6 +384,9 @@ if (editId) {
                 <div class="card shadow">
                   <div class="card-img">
                     <img src="${p.image}" alt="" />
+                    <span> 
+                    ${p.newPrice > 0 && p.newPrice < p.price ? `<span class="discount-badge "> ${Math.round(((p.price - p.newPrice) / p.price) * 100)} % OFF</span>` : ""}
+                    </span>
                   </div>
                   <div class="card-info p-3">
                     <p class="category"> ${p.category} </p>
@@ -388,11 +394,13 @@ if (editId) {
                       ${p.name}
                     </h5>
                     <div class="price-area mb-2 d-flex justify-content-between">
-                      <span class="price fw-bold">Price: ${p.price} TK</span>
-                      <span
-                        ><span class="discount text-danger fw-bold">${p.discount ? "-" + p.discount + "%" : ""}</span
-                        ></span
-                      >
+
+                      <span class="price fw-bold">Price: ${
+                        p.newPrice > 0
+                          ? `<span class="text-decoration-line-through text-danger ">${p.price}</span> ${p.newPrice} Tk`
+                          : `${p.price} Tk`
+                      }
+                      </span>
                     </div>
                     <div class="d-flex justify-content-between flex-wrap mb-1">
                       <div class="instock text-success fw-medium"> ${p.stock > 0 ? "In Stock" : "Out of Stock"} </div>

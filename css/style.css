@@ -103,7 +103,7 @@ p {
   position: absolute;
   top: 100%;
   right: -100px;
-  width: 400px;
+  width: 380px;
   background: white;
   color: black;
   display: none;
@@ -139,7 +139,25 @@ ul.cart-items-list {
   border: 1px solid #ea0c0c;
   border-radius: 5px;
   margin-right: 10px;
+  position: relative;
 }
+.discount-badge {
+  background: #f8f6f6;
+  background: linear-gradient(
+    306deg,
+    rgba(223, 51, 51, 0.365) 0%,
+    rgba(226, 148, 148, 0.653) 50%,
+    rgba(165, 250, 7, 0.254) 100%
+  );
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 5px;
+  font-weight: bold;
+  color: rgb(255, 255, 255);
+  box-shadow: -4px 6px 11px #de2525;
+}
+
 .cart-footer {
   border-top: 1px solid #e8dddd;
   padding: 10px 0;
