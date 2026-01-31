@@ -21,9 +21,9 @@ window.addEventListener("DOMContentLoaded", () => {
   let allProducts = [];
   let filteredArr = [];
   let cartItems = JSON.parse(localStorage.getItem("userCart") || "[]");
+  let allCardElements = [];
   let editId = null;
   let toastTimer;
-  let allCardElements = [];
 
   async function init() {
     await getAllProducts();
@@ -36,6 +36,9 @@ window.addEventListener("DOMContentLoaded", () => {
     try {
       showSkeletons();
       const res = await fetch(api_url);
+      if (!res.ok) {
+        throw Error(res.status);
+      }
       const products = await res.json();
       allProducts = products;
       filteredArr = products;
@@ -58,7 +61,10 @@ window.addEventListener("DOMContentLoaded", () => {
         },
       );
     } catch (error) {
-      console.log(error.message);
+      productDisplayArea.innerHTML = `<div class="no-product-found"><p class="mt-3 me-3">
+        ${error.message == "Failed to fetch" ? "Please check Your Internet conection!" : error.message}   </p><video src="img/sad.mp4" width="100px"
+        autoplay muted loop></video>
+        </div>`;
     }
   }
   // Get "Form_Data" and send to add new product and edit product to API -----------------------------------***
@@ -66,15 +72,14 @@ window.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
 
     submitBtn.setAttribute("disabled", true);
+    submitBtn.innerText = "Uploading ...";
     const formData = new FormData(productForm);
     const data = Object.fromEntries(formData);
     data.createdAt = new Date().toISOString();
 
     try {
       const responseData = await uploadProduct(data);
-      let filterArrIndex = filteredArr.findIndex(
-        (p) => p.id == editId,
-      );
+      let filterArrIndex = filteredArr.findIndex((p) => p.id == editId);
 
       if (editId) {
         let editIndex = allProducts.findIndex((p) => p.id == editId);
@@ -82,25 +87,51 @@ window.addEventListener("DOMContentLoaded", () => {
         filteredArr[filterArrIndex] = responseData;
         productForm.reset();
         syncCart();
-        //setTimeout(() => displayCartItems(), 5000);
+        displayCartItems();
       } else {
         allProducts.push(responseData);
       }
 
       const currentCategory = document.getElementById("categoryFilter").value;
+
       if (currentCategory == "all" || currentCategory === "") {
         filteredArr = [...allProducts];
-        displayProducts(allProducts);
+        setTimeout(() => displayProducts(allProducts), 500);
       } else if (
         currentCategory.toLowerCase() === data.category.toLowerCase()
       ) {
         !editId
           ? filteredArr.push(responseData)
           : (filteredArr[filterArrIndex] = responseData);
-        displayProducts(filteredArr);
+        setTimeout(() => displayProducts(filteredArr), 500);
+      } else if (
+        currentCategory.toLowerCase() !== data.category.toLowerCase()
+      ) {
+        filteredArr = allProducts.filter(
+          (p) => p.category.toLowerCase() == currentCategory.toLowerCase(),
+        );
+        setTimeout(() => displayProducts(filteredArr), 500);
       }
 
-      clearForm();
+      /*/=========================================================
+ এই কোড টা আবার বুঝতে হবে এবং কাজে লাগাতে হবে। 
+if (editId) {
+    // ১. মেইন অ্যারে আপডেট করুন (পেছনে ডাটা ঠিক রাখার জন্য)
+    allProducts[mainIndex] = responseData;
+
+    // ২. ফিল্টার করা অ্যারে থেকে ঐ আইটেমটি আপডেট করুন
+    filteredArr[filterArrIndex] = responseData;
+
+    // ৩. পুরো displayProducts() কল না করে শুধু ঐ কার্ডের HTML বদলে দিন
+    const cardElement = document.querySelector(`[data-id="${editId}"]`);
+    if (cardElement) {
+        // শুধু ঐ কার্ডের ভেতরের HTML আপডেট হবে, পুরো ১০,০০০ না!
+        cardElement.innerHTML = generateCardHTML(responseData); 
+    }
+}=============================================================================
+*/
+
+      clearFormAndUI();
       submitBtn.removeAttribute("disabled");
     } catch (error) {
       console.log(error.message);
@@ -123,11 +154,11 @@ window.addEventListener("DOMContentLoaded", () => {
       const responseData = await res.json();
       !editId
         ? toast(`<p style="color:yellow"> Added Successfully </p> 
-                    <img style="margin-right: 10px" src="${responseData.image}" width="60px" alt="">
+                    <img  src="${responseData.image}" width="60px" alt="">
                <i>Category: ${responseData.category}</i>
         `)
         : toast(`<p style="color:yellow"> Update Product </p> 
-                    <img style="margin-right: 10px" src="${responseData.image}" width="60px" alt="">
+                    <img  src="${responseData.image}" width="60px" alt="">
                <i>Name: ${responseData.name}</i>
         `);
 
@@ -142,13 +173,16 @@ window.addEventListener("DOMContentLoaded", () => {
     if (e.target.classList.contains("edit")) {
       const allCards = document.querySelectorAll(".card");
       allCardElements.push(...allCards);
-      allCards.forEach((singleCard) => {
-        singleCard.classList.remove("shadow");
-        singleCard.style.opacity = 0.3;
+      allCards.forEach((othersCards) => {
+        othersCards.classList.remove("shadow");
+        othersCards.style.opacity = ".0";
+        othersCards.style.pointerEvents = "none";
+        othersCards.style.scale = 1;
       });
       card = e.target.closest(".card");
       card.style.boxShadow = "#f94007 3px 5px 30px 6px";
       card.style.opacity = 1;
+      card.style.scale = 1.05;
 
       const cardId = e.target.closest(".card-area").dataset.id;
       const editProduct = allProducts.find((p) => p.id == cardId);
@@ -166,6 +200,9 @@ window.addEventListener("DOMContentLoaded", () => {
       cancelBtn.style.display = "block";
       formArea.style.background = "skyblue";
       editId = cardId;
+    }
+    if (editId && !e.target.classList.contains("edit")) {
+      clearFormAndUI();
     }
   });
 
@@ -203,12 +240,12 @@ window.addEventListener("DOMContentLoaded", () => {
               allProducts = allProducts.filter((p) => p.id != cardId);
               filteredArr = allProducts.filter((p) => p.id != cardId);
               card.remove();
-              clearForm();
+              clearFormAndUI();
               allProducts.length == 0 && displayProducts(allProducts);
 
               let responseData = await res.json();
               toast(`<p style="color:yellow"> Delete Product </p> 
-                <img style="margin-right: 10px" src="${responseData.image}" width="60px" alt="">
+                <img src="${responseData.image}" width="60px" alt="">
                Name: <i style="color:red">${responseData.name}</i> <br>
             `);
 
@@ -235,7 +272,7 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Add to Cart --------------------------------------=======================================-----***
+  // Add to Cart --------
   productDisplayArea.addEventListener("click", (e) => {
     if (e.target.classList.contains("add-to-cart")) {
       const itemId = e.target.closest(".card-area").dataset.id;
@@ -250,6 +287,10 @@ window.addEventListener("DOMContentLoaded", () => {
       }
       localStorage.setItem("userCart", JSON.stringify(cartItems));
       displayCartItems();
+      toast(` <img class="" src="${selectedProduct.image}" width="60px" alt="">
+              Added in your cart. <br>
+               ${selectedProduct.name} 
+            `);
     }
   });
   document.querySelector(".cart-items-list").addEventListener("click", (e) => {
@@ -258,6 +299,7 @@ window.addEventListener("DOMContentLoaded", () => {
       cartItems = cartItems.filter((p) => p.id != itemId);
       localStorage.setItem("userCart", JSON.stringify(cartItems));
       displayCartItems();
+      toast("Item Remove from cart");
     }
   });
 
@@ -324,7 +366,7 @@ window.addEventListener("DOMContentLoaded", () => {
     let html = products
       .map((p) => {
         return `
-                <div data-id=${p.id} class="card-area col-md-3">
+                <div data-id=${p.id} class="card-area  col-md-3">
                 <div class="card shadow">
                   <div class="card-img">
                     <img src="${p.image}" alt="" />
@@ -348,7 +390,7 @@ window.addEventListener("DOMContentLoaded", () => {
                     <div
                       class="d-flex button-area justify-content-between"
                     >
-                      <button id="addToCart" class="btn add-to-cart bg-dark-subtle fw-bolder"> Add to cart </button>
+                      <button class="btn add-to-cart bg-dark-subtle fw-bolder"> Add to cart </button>
                       <button class="btn edit bg-info">
                         <i class="fa-solid edit text-white fa-edit "></i>
                       </button>
@@ -372,20 +414,22 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   // Filter products by category -----------------------------------***
-  document.getElementById("categoryFilter").addEventListener("change", (e) => {
-    const selectedCategory = e.target.value;
-    toast(
-      `Filtered by <b style="color:yellow">${selectedCategory.toUpperCase()}</b>`,
-    );
-    if (selectedCategory == "all") {
-      filteredArr = [...allProducts];
-    } else {
-      filteredArr = allProducts.filter(
-        (p) => p.category.toLowerCase() == selectedCategory.toLowerCase(),
+  document
+    .getElementById("categoryFilter")
+    .addEventListener("change", function filterProducts(e) {
+      const selectedCategory = e.target.value;
+      toast(
+        `Filtered by <b style="color:yellow">${selectedCategory.toUpperCase()}</b>`,
       );
-    }
-    displayProducts(filteredArr);
-  });
+      if (selectedCategory == "all") {
+        filteredArr = [...allProducts];
+      } else {
+        filteredArr = allProducts.filter(
+          (p) => p.category.toLowerCase() == selectedCategory.toLowerCase(),
+        );
+      }
+      displayProducts(filteredArr);
+    });
 
   // Sort Products by date and price -----------------------------------***
   document.getElementById("sort").addEventListener("change", (e) => {
@@ -441,7 +485,7 @@ window.addEventListener("DOMContentLoaded", () => {
     toast("Searching across all categories...");
   });
 
-  function clearForm() {
+  function clearFormAndUI() {
     productForm.reset();
     submitBtn.innerText = "Add Product";
     submitBtn.style.background = "";
@@ -451,6 +495,8 @@ window.addEventListener("DOMContentLoaded", () => {
     allCardElements.forEach((singleCard) => {
       singleCard.classList.add("shadow");
       singleCard.style.opacity = 1;
+      singleCard.style.scale = 1;
+      singleCard.style.pointerEvents = "auto";
     });
   }
 
@@ -485,7 +531,7 @@ window.addEventListener("DOMContentLoaded", () => {
     }, 4000);
   }
 
-  cancelBtn.addEventListener("click", clearForm);
+  cancelBtn.addEventListener("click", clearFormAndUI);
 
   //====================================
   // gsap animations here
