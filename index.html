@@ -163,28 +163,6 @@
                   />
                 </div>
                 <div class="label-group">
-                  <label for="product-new-price">New Price:</label>
-                  <input
-                    type="number"
-                    id="product-new-price"
-                    name="newPrice"
-                    placeholder="New Price"
-                    min="0"
-                  />
-                </div>
-                <div class="label-group">
-                  <label for="product-discount">Discount:</label>
-                  <input
-                    type="number"
-                    id="product-discount"
-                    name="discount"
-                    placeholder="Discount"
-                    min="0"
-                    max="100"
-                  />
-                </div>
-
-                <div class="label-group">
                   <label for="product-category">Category:</label>
                   <select required name="category" id="product-category">
                     <option selected disabled hidden value="">Category</option>
@@ -221,6 +199,19 @@
                     name="image"
                     id="product-image"
                     placeholder="Image URL"
+                  />
+                </div>
+                <div class="label-group">
+                  <label class="text-muted" for="product-new-price"
+                    >New Price:</label
+                  >
+                  <input
+                    class="bg-black text-warning"
+                    type="number"
+                    id="product-new-price"
+                    name="newPrice"
+                    placeholder="New Price"
+                    min="0"
                   />
                 </div>
                 <div class="d-flex gap-2">

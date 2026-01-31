@@ -145,8 +145,8 @@ ul.cart-items-list {
   background: #f8f6f6;
   background: linear-gradient(
     306deg,
-    rgba(223, 51, 51, 0.365) 0%,
-    rgba(226, 148, 148, 0.653) 50%,
+    rgba(223, 51, 51, 0.681) 0%,
+    rgba(226, 148, 148, 0.826) 50%,
     rgba(165, 250, 7, 0.254) 100%
   );
   position: absolute;

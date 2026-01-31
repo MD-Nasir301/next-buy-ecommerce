@@ -10,7 +10,6 @@ window.addEventListener("DOMContentLoaded", () => {
   const nameInput = document.getElementById("product-name");
   const priceInput = document.getElementById("product-price");
   const newPriceInput = document.getElementById("product-new-price");
-  const discountInput = document.getElementById("product-discount");
   const categoryInput = document.getElementById("product-category");
   const stockInput = document.getElementById("product-stock");
   const sizeInput = document.getElementById("product-size");
@@ -41,7 +40,7 @@ window.addEventListener("DOMContentLoaded", () => {
         throw Error(res.status);
       }
       const products = await res.json();
-      allProducts = products;
+      allProducts = products.reverse();
       filteredArr = products;
 
       displayProducts(allProducts);
@@ -90,7 +89,7 @@ window.addEventListener("DOMContentLoaded", () => {
         syncCart();
         displayCartItems();
       } else {
-        allProducts.push(responseData);
+        allProducts.unshift(responseData);
       }
 
       const currentCategory = document.getElementById("categoryFilter").value;
@@ -131,7 +130,6 @@ if (editId) {
     }
 }=============================================================================
 */
-
       clearFormAndUI();
       submitBtn.removeAttribute("disabled");
     } catch (error) {
@@ -192,7 +190,6 @@ if (editId) {
       nameInput.value = name;
       priceInput.value = price;
       newPriceInput.value = newPrice;
-      discountInput.value = discount;
       categoryInput.value = category;
       stockInput.value = stock;
       sizeInput.value = size;
