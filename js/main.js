@@ -5,6 +5,7 @@ window.addEventListener("DOMContentLoaded", () => {
   const productDisplayArea = document.querySelector(".product-container");
   const cartBadgeUI = document.getElementById("cartBadge");
   const cartTotalUI = document.getElementById("cartTotal");
+  const checkoutBtn = document.getElementById("checkout");
   const sortEl = document.getElementById("sort");
   const productForm = document.getElementById("productForm");
   const formArea = document.getElementById("form-area");
@@ -157,7 +158,7 @@ if (editId) {
                     <img  src="${responseData.image}" width="60px" alt="">
                <i>Category: ${responseData.category}</i>
         `)
-        : toast(`<p style="color:yellow"> Update Product </p> 
+        : toast(`<p style="color:yellow"> Updated Product </p> 
                     <img  src="${responseData.image}" width="60px" alt="">
                <i>Name: ${responseData.name}</i>
         `);
@@ -244,7 +245,7 @@ if (editId) {
               allProducts.length == 0 && displayProducts(allProducts);
 
               let responseData = await res.json();
-              toast(`<p style="color:yellow"> Delete Product </p> 
+              toast(`<p style="color:yellow"> Deleted Product </p> 
                 <img src="${responseData.image}" width="60px" alt="">
                Name: <i style="color:red">${responseData.name}</i> <br>
             `);
@@ -290,9 +291,10 @@ if (editId) {
         cartItems.unshift(selectedProduct);
       }
       localStorage.setItem("userCart", JSON.stringify(cartItems));
+      cartIconAnim.restart();
       displayCartItems();
       toast(` <img class="" src="${selectedProduct.image}" width="60px" alt="">
-              Added in your cart. <br>
+              Added to cart. <br>
                ${selectedProduct.name} 
             `);
     }
@@ -303,23 +305,22 @@ if (editId) {
       cartItems = cartItems.filter((p) => p.id != itemId);
       localStorage.setItem("userCart", JSON.stringify(cartItems));
       displayCartItems();
-      toast("Item Remove from cart");
+      toast("Item Removed from cart");
     }
   });
 
   // Display Add to cart
   async function displayCartItems() {
     let cartHtml = cartItems
-
       .map((p) => {
         let price = p.newPrice > 0 ? p.newPrice : p.price;
         return `
-<li data-id="${p.id}" class="cart-item row align-items-center">
+     <li data-id="${p.id}" class="cart-item row align-items-center">
       <div class="col-md-2">
         <img src="${p.image}" class="cart-item-img" alt="product" />
       </div>
       <div class="col-md-4">
-        <span class="cart-item-name">${p.name}</span>
+        <span class="cart-item-name" ">${p.name}</span>
       </div>
       <div class="col-md-2 p-0">
           Q:
@@ -347,11 +348,29 @@ if (editId) {
     cartTotalUI.innerText = cartTotal(cartItems);
   }
   displayCartItems();
-
   // Cart Total
   function cartTotal(items) {
-    return items.reduce((acc, p) => acc + Number(p.price) * p.quantity, 0);
+    let total = items.reduce((acc, p) => {
+      p.newPrice
+        ? (acc += Number(p.newPrice) * p.quantity)
+        : (acc += Number(p.price) * p.quantity);
+      return acc;
+    }, 0);
+    return total;
   }
+  checkoutBtn.addEventListener("click", (e) => {
+    if (cartItems.length > 0) {
+      window.location = "checkout.html";
+    } else {
+      Swal.fire({
+        title: "Empty Cart!",
+        text: "You must add at least one item to your cart before proceeding to checkout.",
+        icon: "warning",
+        width: "400px",
+      });
+      window.location("index.html");
+    }
+  });
 
   function syncCart() {
     cartItems = cartItems.map((item) => {
@@ -396,7 +415,6 @@ if (editId) {
                       ${p.name}
                     </h5>
                     <div class="price-area mb-2 d-flex justify-content-between">
-
                       <span class="price fw-bold">Price: ${
                         p.newPrice > 0
                           ? `<span class="text-decoration-line-through text-danger ">${p.price}</span> ${p.newPrice} Tk`
@@ -523,8 +541,8 @@ if (editId) {
   }
 
   function showSkeletons() {
-    productDisplayArea.innerHTML = ""; // আগের সব পরিষ্কার করুন
-    let skeletonHTML = ""; // সব কোড এখানে জমাবো
+    productDisplayArea.innerHTML = "";
+    let skeletonHTML = "";
 
     for (let i = 0; i < 8; i++) {
       skeletonHTML += `
@@ -538,7 +556,7 @@ if (editId) {
       </div>
     `;
     }
-    productDisplayArea.innerHTML = skeletonHTML; // একবারে সব বসিয়ে দিন
+    productDisplayArea.innerHTML = skeletonHTML;
   }
 
   function toast(msg) {
@@ -570,15 +588,13 @@ if (editId) {
     ease: "power4.out",
     scale: 0,
   });
-
-  let cardAnimation = gsap.from(".card-area", {
-    y: "-200%",
-    duration: 2,
-    ease: "power4.out",
-    scale: 0,
-    delay: 0.5,
-    stagger: 0.5,
+  let cartIconAnim = gsap.to(".fa-cart-shopping", {
+    scale: 1.5,
+    duration: 0.2,
+    yoyo: true,
+    repeat: 1,
     paused: true,
+    ease: "power1.inOut",
   });
 
   //Last Line

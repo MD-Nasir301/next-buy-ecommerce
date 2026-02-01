@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Description for SEO -->
+    <meta
+      name="description"
+      content="NBK-Bazaar.Your most favorite online shop"
+    />
+    <meta name="author" content="Nasir" />
+
+    <!-- Title -->
+    <title>NBk-Bazaar</title>
+    <link rel="shortcut icon" href="img/12441287.ico" type="image/x-icon" />
+
+    <!-- External CDN Links ----------------------------------------->
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+
+    <!-- Font Awesome CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/checkout.css" />
+  </head>
+
+  <body>
+    <!-- Accessibility: Skip to main content -->
+    <a href="#main-content" class="visually-hidden-focusable">
+      Skip to main content
+    </a>
+
+    <!-- Header Start  ============================================ -->
+
+    <header class="bg-danger clearfix w-100 p-3">
+      <!-- Search filter short pagination -->
+      <nav>
+        <div class="container">
+          <div class="row text-center">
+            <div class="col-4">
+              <a href="index.html"
+                ><img src="img/logo.jpg" width="60px" alt="" class="logo"
+              /></a>
+            </div>
+            <div class="col-md-4">
+              <h3 class="text-white">Checkout</h3>
+            </div>
+            <div class="col-4">
+              <a class="btn btn-info" href="index.html">Go to Shoping</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <!-- Header End  ============================================== -->
+
+    <!-- Main Start  ============================================== -->
+    <main id="main-content" class="">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <div
+              class="userInfoForm-wrapper p-4 pt-4 mt-3 bg-body-tertiary shadow-sm rounded"
+            >
+              <h4 class="text-center text-success mb-4">User Information</h4>
+              <form id="userInfoForm" class="row g-3">
+                <div class="col-md-6 mb-3">
+                  <label
+                    class="form-label fw-bold text-secondary"
+                    for="first-name"
+                    >First Name</label
+                  >
+                  <input
+                    id="first-name"
+                    placeholder="Enter first name"
+                    class="form-control"
+                    name="userFirstName"
+                    required
+                    type="text"
+                  />
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label
+                    class="form-label fw-bold text-secondary"
+                    for="last-name"
+                    >Last Name</label
+                  >
+                  <input
+                    id="last-name"
+                    placeholder="Enter last name"
+                    class="form-control"
+                    name="lastName"
+                    required
+                    type="text"
+                  />
+                </div>
+                <div class="col-12 mb-3">
+                  <label
+                    class="form-label fw-bold text-secondary"
+                    for="userPhone"
+                    >Phone Number</label
+                  >
+                  <input
+                    placeholder="017XXXXXXXX"
+                    id="userPhone"
+                    class="form-control"
+                    name="userPhone"
+                    required
+                    type="tel"
+                  />
+                </div>
+                <div class="col-12 mb-3">
+                  <label
+                    class="form-label fw-bold text-secondary"
+                    for="userAddress"
+                    >Shipping Address</label
+                  >
+                  <textarea
+                    placeholder="House, Road, Area..."
+                    id="userAddress"
+                    class="form-control"
+                    name="userAddress"
+                    rows="2"
+                    required
+                  ></textarea>
+                </div>
+                <div class="col-12 mb-2">
+                  <label class="text-secondary fw-bold me-3"
+                    >Payment Method:</label
+                  >
+                  <div class="form-check form-check-inline">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="paymentMethod"
+                      id="cod"
+                      checked
+                      required
+                    />
+                    <label class="form-check-label" for="cod"
+                      >Cash on Delivery</label
+                    >
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="col-md-1"></div>
+          <div class="col-md-5">
+            <div
+              class="card order-summary-wrapper shadow-sm border-0 order-summary"
+            >
+              <div class="card-body">
+                <h4
+                  class="d-flex justify-content-between align-items-center mb-3"
+                >
+                  <span class="text-secondary">Order Summary</span>
+                  <span class="badge bg-secondary rounded-pill cart-count"
+                    >0</span
+                  >
+                </h4>
+
+                <ul class="list-group mb-4" id="summary-items"></ul>
+
+                <div
+                  class="subtotal d-flex justify-content-between pt-2 border-top"
+                >
+                  <span class="fw-bold text-secondary mb-2">Sub Total:</span>
+                  <span id="sub-total" class="fw-bold">0</span>
+                </div>
+
+                <div class="shipping-cost d-flex justify-content-between">
+                  <span class="mb-2 text-secondary fw-bold"
+                    >Shipping Cost: ‍
+                  </span>
+
+                  <span id="shipping-cost">0</span>
+                </div>
+                <div
+                  class="total-price border-top d-flex justify-content-between pt-3"
+                >
+                  <span class="fw-bold fs-5">Grand Total:</span>
+                  <span id="grand-total" class="fw-bold fs-5 text-primary">
+                    0
+                  </span>
+                </div>
+
+                <button
+                  type="submit"
+                  form="userInfoForm"
+                  class="btn btn-info text-white w-100 mt-2 fw-bold"
+                >
+                  Place Order
+                </button>
+              </div>
+
+              <div class="pb-2 text-center">
+                <span class="small"
+                  >Want to change items?
+                  <a class="ms-1 text-decoration-none" href="index.html"
+                    >Return to cart</a
+                  ></span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Main End ================================================ -->
+    <!-- Footer Start 
+    ============================================ -->
+    <footer class="sticky-bottom p-2 theme-bg-primary">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <p class="text-center m-0 p-2 text-white">
+              Copyright &copy; NBk-Bazaar 2026
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <div id="toast" class="toast-box">Product Updated Successfully!</div>
+
+    <!-- Footer End ============================================== -->
+
+    <!-- External JS CDN Links -------------------------------------->
+    <!-- Bootstrap Bundle JS -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Sweet Alert JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Gsap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+
+    <!-- Owl Carousel 2 JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="js/checkout.js"></script>
+  </body>
+</html>

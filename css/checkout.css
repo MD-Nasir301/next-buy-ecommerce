@@ -1,0 +1,8 @@
+ul#summary-items {
+  overflow-y: auto;
+  max-height: 215px;
+  scrollbar-width: thin;
+  overflow-x: hidden;
+  background: rgb(137, 133, 133);
+  padding: 10px 20px;
+}
