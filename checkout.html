@@ -51,7 +51,7 @@
 
     <!-- Header Start  ============================================ -->
 
-    <header class="bg-danger clearfix w-100 p-3">
+    <header class="bg-danger clearfix w-100 p-2">
       <!-- Search filter short pagination -->
       <nav>
         <div class="container">
@@ -62,7 +62,12 @@
               /></a>
             </div>
             <div class="col-md-4">
-              <h3 class="text-white">Checkout</h3>
+              <h3 class="text-white">
+                Fast Delivery
+                <span style="display: inline-block; transform: scaleX(-1)"
+                  >🚚</span
+                >
+              </h3>
             </div>
             <div class="col-4">
               <a class="btn btn-info" href="index.html">Go to Shoping</a>
@@ -79,10 +84,10 @@
         <div class="row">
           <div class="col-md-6">
             <div
-              class="userInfoForm-wrapper p-4 pt-4 mt-3 bg-body-tertiary shadow-sm rounded"
+              class="customerInfoForm-wrapper p-4 pt-4 mt-3 bg-body-tertiary shadow-sm rounded"
             >
-              <h4 class="text-center text-success mb-4">User Information</h4>
-              <form id="userInfoForm" class="row g-3">
+              <h4 class="text-center text-success mb-4">Shipping Details</h4>
+              <form id="customerInfoForm" class="row g-3">
                 <div class="col-md-6 mb-3">
                   <label
                     class="form-label fw-bold text-secondary"
@@ -93,7 +98,7 @@
                     id="first-name"
                     placeholder="Enter first name"
                     class="form-control"
-                    name="userFirstName"
+                    name="firstName"
                     required
                     type="text"
                   />
@@ -155,10 +160,22 @@
                       id="cod"
                       checked
                       required
+                      value="Cash on Delivery"
                     />
                     <label class="form-check-label" for="cod"
                       >Cash on Delivery</label
                     >
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="paymentMethod"
+                      id="bikas"
+                      required
+                      value="Bikas"
+                    />
+                    <label class="form-check-label" for="bikas">Bikas</label>
                   </div>
                 </div>
               </form>
@@ -174,7 +191,9 @@
                   class="d-flex justify-content-between align-items-center mb-3"
                 >
                   <span class="text-secondary">Order Summary</span>
-                  <span class="badge bg-secondary rounded-pill cart-count"
+                  <span
+                    id="item-count-badge"
+                    class="badge bg-secondary rounded-pill cart-count"
                     >0</span
                   >
                 </h4>
@@ -190,7 +209,10 @@
 
                 <div class="shipping-cost d-flex justify-content-between">
                   <span class="mb-2 text-secondary fw-bold"
-                    >Shipping Cost: ‍
+                    >Shipping Cost:
+                    <small class="fw-lighter text-success"
+                      >(Free ship @ 2000+ TK)</small
+                    >
                   </span>
 
                   <span id="shipping-cost">0</span>
@@ -198,7 +220,7 @@
                 <div
                   class="total-price border-top d-flex justify-content-between pt-3"
                 >
-                  <span class="fw-bold fs-5">Grand Total:</span>
+                  <span class="fw-bold fs-5 text-success">Grand Total:</span>
                   <span id="grand-total" class="fw-bold fs-5 text-primary">
                     0
                   </span>
@@ -206,20 +228,20 @@
 
                 <button
                   type="submit"
-                  form="userInfoForm"
-                  class="btn btn-info text-white w-100 mt-2 fw-bold"
+                  id="submit"
+                  form="customerInfoForm"
+                  class="btn btn-info submit text-white w-100 mt-2 fw-bold"
                 >
                   Place Order
                 </button>
-              </div>
-
-              <div class="pb-2 text-center">
-                <span class="small"
-                  >Want to change items?
-                  <a class="ms-1 text-decoration-none" href="index.html"
-                    >Return to cart</a
-                  ></span
-                >
+                <div class="pb-2 text-center">
+                  <span class="small"
+                    >Want to change items?
+                    <a class="ms-1 text-decoration-none" href="index.html"
+                      >Return to cart</a
+                    ></span
+                  >
+                </div>
               </div>
             </div>
           </div>

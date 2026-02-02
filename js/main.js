@@ -33,7 +33,7 @@ window.addEventListener("DOMContentLoaded", () => {
   }
   init();
 
-  // Get all products from API after page load -----------------------------------***
+  // Fetch products from API on page load ------------------------***
   async function getAllProducts() {
     try {
       showSkeletons();
@@ -78,7 +78,11 @@ window.addEventListener("DOMContentLoaded", () => {
     const formData = new FormData(productForm);
     const data = Object.fromEntries(formData);
     data.createdAt = new Date().toISOString();
-
+    data.discount =
+      data.newPrice < data.price && data.newPrice > 0
+        ? Math.round(((data.price - data.newPrice) * 100) / data.price)
+        : 0;
+        
     try {
       const responseData = await uploadProduct(data);
       let filterArrIndex = filteredArr.findIndex((p) => p.id == editId);
@@ -95,7 +99,6 @@ window.addEventListener("DOMContentLoaded", () => {
       }
 
       const currentCategory = document.getElementById("categoryFilter").value;
-
       if (currentCategory == "all" || currentCategory === "") {
         filteredArr = [...allProducts];
         setTimeout(() => displayProducts(allProducts), 500);
@@ -150,16 +153,16 @@ if (editId) {
         body: JSON.stringify(data),
       });
       if (!res.ok) {
-        throw new Error("Failed to upload product====");
+        throw new Error("Failed to upload product");
       }
       const responseData = await res.json();
       !editId
         ? toast(`<p style="color:yellow"> Added Successfully </p> 
-                    <img  src="${responseData.image}" width="60px" alt="">
+               <img  src="${responseData.image}" width="60px" alt="">
                <i>Category: ${responseData.category}</i>
         `)
         : toast(`<p style="color:yellow"> Updated Product </p> 
-                    <img  src="${responseData.image}" width="60px" alt="">
+               <img  src="${responseData.image}" width="60px" alt="">
                <i>Name: ${responseData.name}</i>
         `);
 
@@ -320,7 +323,7 @@ if (editId) {
         <img src="${p.image}" class="cart-item-img" alt="product" />
       </div>
       <div class="col-md-4">
-        <span class="cart-item-name" ">${p.name}</span>
+        <span class="cart-item-name text-success fw-bold" ">${p.name}</span>
       </div>
       <div class="col-md-2 p-0">
           Q:
@@ -406,7 +409,7 @@ if (editId) {
                   <div class="card-img">
                     <img src="${p.image}" alt="" />
                     <span> 
-                    ${p.newPrice > 0 && p.newPrice < p.price ? `<span class="discount-badge "> ${Math.round(((p.price - p.newPrice) / p.price) * 100)} % OFF</span>` : ""}
+                    ${p.discount > 0 ? `<span class="discount-badge "> ${p.discount} % OFF</span>` : ""}
                     </span>
                   </div>
                   <div class="card-info p-3">
