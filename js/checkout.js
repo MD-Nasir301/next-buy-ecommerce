@@ -40,12 +40,18 @@ window.document.addEventListener("DOMContentLoaded", () => {
       if (resData) {
         resetCheckoutStatus();
         await Swal.fire({
-          title: `Thank you, ${resData.firstName}!`,
+          title: `Thank you, <span class="text-success">${resData.firstName}!</span>`,
           text: "Your order has been received and is being processed.",
           icon: "success",
           width: "400px",
-          confirmButtonText: "Great!",
-          confirmButtonColor: "#28a745",
+          confirmButtonText: "Back to Home",
+          confirmButtonColor: "#6f7af5",
+          allowOutsideClick: false, 
+          allowEscapeKey: false,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = "index.html";
+          }
         });
       } else {
         throw new Error("Upload failed to server");

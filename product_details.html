@@ -59,6 +59,7 @@
     </a>
 
     <!-- Header Start  ============================================ -->
+
     <header class="bg-danger position-fixed w-100 sticky-top p-2">
       <!-- Search filter short pagination -->
       <nav>
@@ -69,16 +70,15 @@
                 ><img src="img/logo.jpg" width="60px" alt="" class="logo"
               /></a>
             </div>
-            <div class="col-4">
-              <form action="index.html">
+            <div class="col-4 mt-1">
+              <a href="index.html">
                 <input
                   id="searchProduct"
                   class="form-control me-2"
                   type="search"
                   placeholder="Search Product"
                   aria-label="Search"
-                />
-              </form>
+              /></a>
             </div>
             <div class="col-2">
               <div
@@ -101,7 +101,8 @@
                 </div>
               </div>
             </div>
-            <div class="col-4">
+
+            <div class="col-2 mt-2 offset-2">
               <div class="filter-area d-flex gap-2">
                 <select
                   class="form-select form-select-sm bg-info"
@@ -114,19 +115,6 @@
                   <option value="accessories">Accessories</option>
                   <option value="Women’s Collection">Women’s Collection</option>
                 </select>
-                <select
-                  class="form-select form-select-sm bg-warning"
-                  id="sort"
-                  aria-label=".form-select-sm example"
-                >
-                  <option hidden desebled selected>Sort</option>
-                  <option value="default">Default</option>
-                  <option value="newest">Newest</option>
-                  <option value="oldest">Oldest</option>
-                  <option value="priceHtoL">Price High to Low</option>
-                  <option value="priceLtoH">Price Low to High</option>
-                  <option value="maxDiscount">Maximum Discount</option>
-                </select>
               </div>
             </div>
           </div>
@@ -136,106 +124,7 @@
     <!-- Header End  ============================================== -->
 
     <!-- Main Start  ============================================== -->
-    <main id="main-content" class="mt-5 h-100">
-      <div class="container-fluid h-100">
-        <div class="d-flex gap-3 h-100">
-          <aside class="aside mt-4" id="aside">
-            <div class="form-area" id="form-area">
-              <form action="" id="productForm">
-                <div class="label-group">
-                  <label for="product-name">Product Name:</label>
-                  <input
-                    type="text"
-                    id="product-name"
-                    name="name"
-                    placeholder="Product Name"
-                    required
-                  />
-                </div>
-                <div class="label-group">
-                  <label for="product-price">Price:</label>
-                  <input
-                    type="number"
-                    id="product-price"
-                    name="price"
-                    placeholder="Price"
-                    required
-                    min="0"
-                  />
-                </div>
-                <div class="label-group">
-                  <label for="product-category">Category:</label>
-                  <select required name="category" id="product-category">
-                    <option selected disabled hidden value="">Category</option>
-                    <option value="Dress">Dress</option>
-                    <option value="Accessories">Accessories</option>
-                    <option value="Women’s Collection">
-                      Women’s Collection
-                    </option>
-                  </select>
-                </div>
-                <div class="label-group">
-                  <label for="product-stock">In Stock:</label>
-                  <input
-                    type="text"
-                    name="stock"
-                    id="product-stock"
-                    placeholder="In Stock"
-                    required
-                  />
-                </div>
-                <div class="label-group">
-                  <label for="product-size">Size:</label>
-                  <input
-                    type="text"
-                    name="size"
-                    id="product-size"
-                    placeholder="Size"
-                  />
-                </div>
-                <div class="label-group">
-                  <label for="product-image">Image:</label>
-                  <input
-                    type="text"
-                    name="image"
-                    id="product-image"
-                    placeholder="Image URL"
-                  />
-                </div>
-                <div class="label-group">
-                  <label class="text-muted" for="product-new-price"
-                    >New Price:</label
-                  >
-                  <input
-                    class="bg-black text-warning"
-                    type="number"
-                    id="product-new-price"
-                    name="newPrice"
-                    placeholder="New Price"
-                    min="0"
-                  />
-                </div>
-                <div class="d-flex gap-2">
-                  <button type="submit" id="submit" class="btn btn-danger w-10">
-                    Add Product
-                  </button>
-                  <span
-                    style="display: none"
-                    id="cancel"
-                    class="btn d btn-danger w-10"
-                  >
-                    Cancel
-                  </span>
-                </div>
-              </form>
-            </div>
-          </aside>
-          <section class="product-display-area col-md-9 mt-4">
-            <div class="product-container pb-4 g-4 row"></div>
-          </section>
-        </div>
-      </div>
-    </main>
+    <main id="main-content" class="mt-5 h-100"></main>
 
     <!-- Main End ================================================ -->
     <!-- Footer Start 

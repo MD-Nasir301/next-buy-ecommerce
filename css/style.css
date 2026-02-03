@@ -35,7 +35,6 @@ body {
 body {
   font-family: "Roboto", sans-serif;
   font-weight: 400;
-  overflow: hidden;
   line-height: 1.6;
   background: var(--bg-white);
   color: var(--text-black);
@@ -264,7 +263,23 @@ main {
     url("../img/logo.jpg");
   background-size: cover;
   background-position: center;
+  position: relative;
 }
+.view-details {
+  position: absolute;
+  background: #2f1e1e8c;
+  color: #fefefe;
+  padding: 15px 10px;
+  font-size: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  z-index: 500000;
+  display: none;
+}
+.card-img:hover .view-details {
+  display: block;
+}
+
 .card-img img {
   max-width: 100%;
   object-fit: cover;

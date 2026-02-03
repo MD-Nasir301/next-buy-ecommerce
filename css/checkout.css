@@ -1,6 +1,6 @@
 ul#summary-items {
   overflow-y: auto;
-  max-height: 235px;
+  max-height: 185px;
   scrollbar-width: thin;
   overflow-x: hidden;
   background: rgba(220, 220, 223, 0.434);

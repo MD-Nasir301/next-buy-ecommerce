@@ -82,7 +82,7 @@ window.addEventListener("DOMContentLoaded", () => {
       data.newPrice < data.price && data.newPrice > 0
         ? Math.round(((data.price - data.newPrice) * 100) / data.price)
         : 0;
-        
+
     try {
       const responseData = await uploadProduct(data);
       let filterArrIndex = filteredArr.findIndex((p) => p.id == editId);
@@ -407,7 +407,9 @@ if (editId) {
                 <div data-id=${p.id} class="card-area  col-md-3">
                 <div class="card shadow">
                   <div class="card-img">
-                    <img src="${p.image}" alt="" />
+                  <a href="product_details.html?id=${p.id}">
+                    <p class="view-details">View Details </p></a>
+                    <img src="${p.image}"  alt="" />
                     <span> 
                     ${p.discount > 0 ? `<span class="discount-badge "> ${p.discount} % OFF</span>` : ""}
                     </span>
