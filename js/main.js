@@ -476,6 +476,11 @@ if (editId) {
       displayProducts(filteredArr);
     });
 
+
+
+
+    
+
   // Sort Products by date and price -----------------------------------***
   sortEl.addEventListener("change", (e) => {
     const selectedOption = e.target.value;
@@ -577,6 +582,14 @@ if (editId) {
   }
 
   cancelBtn.addEventListener("click", clearFormAndUI);
+  window.onload = function () {
+    const param = new URLSearchParams(this.window.location.search);
+    if (param.get("focusSearch") === "true") {
+      document.getElementById("searchProduct").focus();
+      productDisplayArea.innerHTML = " "
+    }
+  };
+  //Check Search focus
 
   //====================================
   // gsap animations here
