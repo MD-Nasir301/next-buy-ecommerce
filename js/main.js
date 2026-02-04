@@ -26,10 +26,16 @@ window.addEventListener("DOMContentLoaded", () => {
   let allCardElements = [];
   let editId = null;
   let toastTimer;
+  const prams = new URLSearchParams(window.location.search);
+  const category = prams.get("category");
 
   async function init() {
     await getAllProducts();
     syncCart();
+    if (category) {
+      filterProducts(category);
+      document.getElementById("categoryFilter").value = category;
+    }
   }
   init();
 
@@ -457,29 +463,30 @@ if (editId) {
         : html;
   }
 
-  // Filter products by category -----------------------------------***
   document
     .getElementById("categoryFilter")
-    .addEventListener("change", function filterProducts(e) {
-      const selectedCategory = e.target.value;
-      sortEl.value = "default";
-      toast(
-        `Filtered by <b style="color:yellow">${selectedCategory.toUpperCase()}</b>`,
-      );
-      if (selectedCategory == "all") {
-        filteredArr = [...allProducts];
-      } else {
-        filteredArr = allProducts.filter(
-          (p) => p.category.toLowerCase() == selectedCategory.toLowerCase(),
-        );
-      }
-      displayProducts(filteredArr);
+    .addEventListener("change", function (e) {
+      filterProducts(e.target.value);
     });
 
 
+  // Filter products by category -----------------------------------***
+  function filterProducts(category) {
+    const selectedCategory = category;
+    sortEl.value = "default";
+    if (selectedCategory == "all") {
+      filteredArr = [...allProducts];
+    } else {
+      filteredArr = allProducts.filter(
+        (p) => p.category.toLowerCase() == selectedCategory.toLowerCase(),
+      );
+    }
+    displayProducts(filteredArr);
+    toast(
+      `Filtered by <b style="color:yellow">${selectedCategory.toUpperCase()}</b>`,
+    );
+  }
 
-
-    
 
   // Sort Products by date and price -----------------------------------***
   sortEl.addEventListener("change", (e) => {
