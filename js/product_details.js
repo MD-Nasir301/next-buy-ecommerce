@@ -1,9 +1,11 @@
-document
-  .getElementById("categoryFilter")
-  .addEventListener("change", function () {
-    const selectedValue = this.value;
+window.document.addEventListener("DOMContentLoaded", () => {
+  const categoryEl = document.getElementById("categoryFilter");
 
-    // যদি ইউজার অন্য কোনো পেজে থাকে (যেমন Product Details পেজে)
-    // আর সে হোম পেজের ক্যাটাগরিতে যেতে চায়:
+
+  
+
+  categoryEl.addEventListener("change", function () {
+    const selectedValue = this.value;
     window.location.href = `index.html?category=${selectedValue}`;
   });
+}); // Last Line

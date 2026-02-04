@@ -83,7 +83,6 @@ p {
   font-size: 14px;
   font-weight: 400;
   color: var(--theme-text-secondary);
-  line-height: 1px;
 }
 
 /* ========== MAIN CSS START HERE ========== */
@@ -269,7 +268,7 @@ main {
   position: absolute;
   background: #2f1e1e8c;
   color: #fefefe;
-  padding: 15px 10px;
+  padding: 8px 10px;
   font-size: 12px;
   border-radius: 4px;
   margin-top: 10px;

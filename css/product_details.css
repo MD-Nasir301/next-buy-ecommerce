@@ -1,0 +1,17 @@
+.product-info {
+  background: rgba(236, 193, 250, 0.083);
+  padding: 10px 20px;
+}
+.product-info p {
+  font-size: 16px;
+  color: rgb(152, 120, 120);
+  line-height: 30px;
+  text-align: justify;
+}
+.product-info ul li {
+  color: rgb(152, 120, 120);
+}
+.product-info ul li::before {
+  content: "-";
+  margin-right: 10px;
+}
