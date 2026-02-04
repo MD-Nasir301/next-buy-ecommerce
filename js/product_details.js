@@ -2,7 +2,6 @@ window.document.addEventListener("DOMContentLoaded", () => {
   const api = "https://6973a4f4b5f46f8b5827ea6b.mockapi.io/nbk-bazar";
   const categoryEl = document.getElementById("categoryFilter");
   const productAreaEl = document.querySelector(".product-details-area");
-  const cartBadge = document.getElementById("cartTotal");
 
   const cartData = JSON.parse(localStorage.getItem("userCart")) || [];
   const param = new URLSearchParams(window.location.search);
@@ -12,7 +11,6 @@ window.document.addEventListener("DOMContentLoaded", () => {
   async function init() {
     await getProduct();
     displayProduct();
-    console.log(productData);
   }
   init();
 
@@ -42,7 +40,7 @@ window.document.addEventListener("DOMContentLoaded", () => {
             <div class="product-info">
               <h3 class="mb-3">${productData.name}</h3>
               <h5 class="mb-2">
-                Price: <span class="text-primary">2500৳</span>
+                Price: <span class="text-primary"> ${productData.price} ৳ </span>
               </h5>
               <div class="product-details">
                 <p class="mb-1">
@@ -57,7 +55,6 @@ window.document.addEventListener("DOMContentLoaded", () => {
                   <li>Lorem sit amet.</li>
                   <li>Lorem ipsumor sit amet.</li>
                 </ul>
-
               </div>
             </div>
           </div>

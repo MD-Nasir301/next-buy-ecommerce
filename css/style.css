@@ -378,8 +378,8 @@ i.fa-solid {
 /* toast area  */
 .toast-box {
   position: fixed;
-  bottom: 40px;
-  right: -300px;
+  bottom: 45px;
+  right: -450px;
   background-color: #333;
   color: #fff;
   padding: 15px 25px;
