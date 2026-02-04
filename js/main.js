@@ -78,7 +78,6 @@ window.addEventListener("DOMContentLoaded", () => {
   // Get "Form_Data" and send to add new product and edit product to API -----------------------------------***
   productForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-
     submitBtn.setAttribute("disabled", true);
     submitBtn.innerText = "Uploading ...";
     const formData = new FormData(productForm);
@@ -469,8 +468,7 @@ if (editId) {
       filterProducts(e.target.value);
     });
 
-
-  // Filter products by category -----------------------------------***
+  // Filter products by category ------------------------***
   function filterProducts(category) {
     const selectedCategory = category;
     sortEl.value = "default";
@@ -487,8 +485,7 @@ if (editId) {
     );
   }
 
-
-  // Sort Products by date and price -----------------------------------***
+  // Sort Products by date and price ----------------------***
   sortEl.addEventListener("change", (e) => {
     const selectedOption = e.target.value;
     const copyForSortProducts = [...filteredArr];
@@ -510,15 +507,21 @@ if (editId) {
       displayProducts(sortedProducts);
     }
     if (selectedOption == "priceHtoL") {
-      const sortedProducts = copyForSortProducts.sort(
-        (a, b) => b.price - a.price,
-      );
+      const sortedProducts = copyForSortProducts.sort((a, b) => {
+        let priceA = parseFloat(a.newPrice) || parseFloat(a.price) || 0;
+        let priceB = parseFloat(b.newPrice) || parseFloat(b.price) || 0;
+        return priceB - priceA;
+      });
       displayProducts(sortedProducts);
     }
     if (selectedOption == "priceLtoH") {
-      const sortedProducts = copyForSortProducts.sort(
-        (a, b) => a.price - b.price,
-      );
+      const sortedProducts = copyForSortProducts.sort((a, b) => {
+        let priceA = parseFloat(a.newPrice) || parseFloat(a.price) || 0;
+        let priceB = parseFloat(b.newPrice) || parseFloat(b.price) || 0;
+
+        return priceA - priceB;
+      });
+
       displayProducts(sortedProducts);
     }
     if (selectedOption == "maxDiscount") {
@@ -593,10 +596,9 @@ if (editId) {
     const param = new URLSearchParams(this.window.location.search);
     if (param.get("focusSearch") === "true") {
       document.getElementById("searchProduct").focus();
-      productDisplayArea.innerHTML = " "
+      productDisplayArea.innerHTML = " ";
     }
   };
-  //Check Search focus
 
   //====================================
   // gsap animations here
