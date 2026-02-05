@@ -20,24 +20,54 @@ window.addEventListener("DOMContentLoaded", () => {
   const cancelBtn = document.getElementById("cancel");
   const toastBox = document.getElementById("toast");
 
-  let allProducts = [];
-  let filteredArr = [];
   let cartItems = JSON.parse(localStorage.getItem("userCart") || "[]");
-  let allCardElements = [];
-  let editId = null;
-  let toastTimer;
+  let userRole = localStorage.getItem("userRole") || "user";
   const prams = new URLSearchParams(window.location.search);
   const category = prams.get("category");
 
+  let allProducts = [];
+  let filteredArr = [];
+  let allCardElements = [];
+  let editId = null;
+  let toastTimer;
+  let isAdmin = userRole == "admin";
+
   async function init() {
+    roleSelector(userRole);
     await getAllProducts();
     syncCart();
     if (category) {
       filterProducts(category);
       document.getElementById("categoryFilter").value = category;
     }
+    document.getElementById("role-selector").value = userRole;
   }
   init();
+
+  document.getElementById("role-selector").addEventListener("change", (e) => {
+    roleSelector(e.target.value);
+  });
+
+  function roleSelector(option) {
+    if (option == "admin") {
+      isAdmin = true;
+      localStorage.setItem("userRole", "admin");
+      displayProducts(allProducts);
+      document.querySelector("aside").classList.remove("d-none");
+      document.querySelector("aside").classList.remove("opacity-0");
+      document
+        .querySelector(".custom-for-admin")
+        .classList.remove("justify-content-center");
+    } else {
+      isAdmin = false;
+      localStorage.setItem("userRole", "user");
+      displayProducts(allProducts);
+      document.querySelector("aside").classList.add("d-none");
+      document
+        .querySelector(".custom-for-admin")
+        .classList.add("justify-content-center");
+    }
+  }
 
   // Fetch products from API on page load ------------------------***
   async function getAllProducts() {
@@ -388,8 +418,7 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  //---- Displays all products in the product display area-------------------------------------------------------***
-
+  //---- Display all products --------------------***
   async function displayProducts(products) {
     let html = products
       .map((p) => {
@@ -424,13 +453,23 @@ window.addEventListener("DOMContentLoaded", () => {
                     <div
                       class="d-flex button-area justify-content-between"
                     >
-                      <button class="btn add-to-cart bg-dark-subtle fw-bolder"> Add to cart </button>
-                      <button class="btn edit bg-info">
+                    ${isAdmin ? `<button class="btn add-to-cart bg-dark-subtle fw-bolder"> Add to cart </button>` : `<button class="btn add-to-cart m-auto w-100 theme-gradient text-white  fw-bolder"> Add to cart </button>`}
+                      
+                      ${
+                        isAdmin
+                          ? `<button class="btn edit bg-info">
                         <i class="fa-solid edit text-white fa-edit "></i>
-                      </button>
-                      <button class="btn  delete bg-warning">
+                      </button>`
+                          : ""
+                      }
+
+                      ${
+                        isAdmin
+                          ? `<button class="btn  delete bg-warning">
                         <i class="fa-solid delete text-danger fa-trash "></i>
-                      </button>
+                      </button>`
+                          : ""
+                      }
                     </div>
                   </div>
                 </div>

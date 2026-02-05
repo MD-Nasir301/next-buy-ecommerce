@@ -62,7 +62,11 @@
         <div class="container">
           <div class="row">
             <div class="col-2">
-              <a href="index.html"
+              <select name="role-selector" id="role-selector">
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+              </select>
+              <a href="index.html" class="ms-3"
                 ><img src="img/logo.jpg" width="60px" alt="" class="logo"
               /></a>
             </div>
@@ -135,8 +139,8 @@
     <!-- Main Start  ============================================== -->
     <main id="main-content" class="mt-5 h-100">
       <div class="container-fluid h-100">
-        <div class="d-flex gap-3 h-100">
-          <aside class="aside mt-4" id="aside">
+        <div class="d-flex custom-for-admin gap-3 h-100">
+          <aside class="aside mt-4 opacity-0" id="aside">
             <div class="form-area" id="form-area">
               <form action="" id="productForm">
                 <div class="label-group">

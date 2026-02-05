@@ -92,7 +92,29 @@ p {
    End of Stylesheet
    =========================================================== */
 
+.theme-gradient {
+  background: #ed2121;
+  background: linear-gradient(
+    306deg,
+    rgba(243, 64, 64, 0.86) 0%,
+    rgba(203, 34, 113, 0.558) 50%,
+    rgba(121, 216, 73, 0.575) 100%
+  );
+}
 /* nav area  */
+#role-selector {
+  background: none;
+  border: none;
+  color: rgb(243, 239, 239);
+  font-weight: bold;
+}
+#role-selector option {
+  background: #000;
+}
+#role-selector:focus {
+  border: none;
+  outline: none;
+}
 .cart-wrapper {
   position: relative; /* ড্রপডাউন পজিশন করার জন্য */
   cursor: pointer;
