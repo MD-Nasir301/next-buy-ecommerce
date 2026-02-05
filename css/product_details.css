@@ -1,13 +1,15 @@
 .product-details-area {
   min-height: 400px;
 }
-
-
 .product-image {
-  height: 400px; 
+  height: 400px;
+  overflow: hidden;
 }
-.product-image img{
- height: 100%;
+.product-image img {
+  object-fit: cover;
+  
+  border-radius: 10px;
+  height: 100%;
 }
 .product-info {
   background: rgba(236, 193, 250, 0.083);

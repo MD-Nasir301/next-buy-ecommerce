@@ -123,23 +123,6 @@ window.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => displayProducts(filteredArr), 500);
       }
 
-      /*/=========================================================
- এই কোড টা আবার বুঝতে হবে এবং কাজে লাগাতে হবে। 
-if (editId) {
-    // ১. মেইন অ্যারে আপডেট করুন (পেছনে ডাটা ঠিক রাখার জন্য)
-    allProducts[mainIndex] = responseData;
-
-    // ২. ফিল্টার করা অ্যারে থেকে ঐ আইটেমটি আপডেট করুন
-    filteredArr[filterArrIndex] = responseData;
-
-    // ৩. পুরো displayProducts() কল না করে শুধু ঐ কার্ডের HTML বদলে দিন
-    const cardElement = document.querySelector(`[data-id="${editId}"]`);
-    if (cardElement) {
-        // শুধু ঐ কার্ডের ভেতরের HTML আপডেট হবে, পুরো ১০,০০০ না!
-        cardElement.innerHTML = generateCardHTML(responseData); 
-    }
-}=============================================================================
-*/
       clearFormAndUI();
       submitBtn.removeAttribute("disabled");
     } catch (error) {
@@ -317,7 +300,7 @@ if (editId) {
     }
   });
 
-  // Display Add to cart
+  // Display Cart Items
   async function displayCartItems() {
     let cartHtml = cartItems
       .map((p) => {
@@ -356,6 +339,7 @@ if (editId) {
     cartTotalUI.innerText = cartTotal(cartItems);
   }
   displayCartItems();
+
   // Cart Total
   function cartTotal(items) {
     let total = items.reduce((acc, p) => {
@@ -366,9 +350,10 @@ if (editId) {
     }, 0);
     return total;
   }
+
   checkoutBtn.addEventListener("click", (e) => {
     if (cartItems.length > 0) {
-      window.location = "checkout.html";
+      window.location.href = "checkout.html";
     } else {
       Swal.fire({
         title: "Empty Cart!",
@@ -376,7 +361,6 @@ if (editId) {
         icon: "warning",
         width: "400px",
       });
-      window.location("index.html");
     }
   });
 
@@ -391,6 +375,7 @@ if (editId) {
     localStorage.setItem("userCart", JSON.stringify(cartItems));
   }
 
+  // Update cart item quantity
   document.querySelector(".cart-items-list").addEventListener("change", (e) => {
     if (e.target.classList.contains("quantity-input")) {
       let itemId = e.target.dataset.id;
@@ -592,6 +577,7 @@ if (editId) {
   }
 
   cancelBtn.addEventListener("click", clearFormAndUI);
+  // Check url for e
   window.onload = function () {
     const param = new URLSearchParams(this.window.location.search);
     if (param.get("focusSearch") === "true") {
