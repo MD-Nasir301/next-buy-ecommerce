@@ -112,7 +112,7 @@ window.addEventListener("DOMContentLoaded", () => {
       }
 
       const currentCategory = document.getElementById("categoryFilter").value;
-      if (currentCategory == "all" || currentCategory === "") {
+      if (currentCategory == "all" || currentCategory == "category") {
         filteredArr = [...allProducts];
         setTimeout(() => displayProducts(allProducts), 500);
       } else if (
