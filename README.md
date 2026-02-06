@@ -36,7 +36,7 @@ NextBuy is a dynamic, role-based e-commerce platform built with vanilla JavaScri
 
 ## 🚀 How to Run Locally
 1. Clone the repository: 
-   `git clone https://github.com/your-username/next-buy-ecommerce.git`
+   `git clone https://github.com/MD-Nasir301/next-buy-ecommerce.git`
 2. Open `index.html` in your browser.
 
 ## 📄 License
