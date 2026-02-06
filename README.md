@@ -2,18 +2,37 @@
 
 NextBuy is a dynamic, role-based e-commerce platform built with vanilla JavaScript. It demonstrates real-world features like API integration and local storage management.
 
-## ✨ Features
-* **Role-Based Access:** Toggle between **Admin** and **User** modes (stored in LocalStorage).
-* **Mock API Integration:** Fetches product data and sends orders back to a mock server.
-* **Persistent Shopping Cart:** Cart items remain saved even after page refresh.
-* **Product Sorting:** Sort products by price (Low to High, High to Low).
-* **Responsive Design:** Optimized for mobile and desktop views.
+## ✨ Key Features
+* **Role-Based System:** Dynamic switching between **Admin** and **User** (persisted via LocalStorage).
+* **Smooth Animations:** Integrated **GSAP** for high-quality UI transitions and effects.
+* **Interactive Alerts:** Used **SweetAlert** for beautiful, user-friendly notifications.
+* **Image Management:** All product images are hosted and fetched via **imgBB**.
+* **Mock API Sync:** Real-time data fetching and order submission to a mock backend.
+* **Persistent Cart:** Fully functional cart that stays updated using LocalStorage.
 
-## 🛠️ Technologies Used
-* HTML5 & CSS3
-* JavaScript (ES6+)
-* [Mock API Name, e.g., MockAPI.io]
-* LocalStorage API
+## 🛠️ Tech Stack
+* **Frontend:** HTML5, CSS3, **Bootstrap 5** (Responsive Layout)
+* **Animation:** **GSAP** (GreenSock Animation Platform)
+* **Interactions:** **SweetAlert2**
+* **Database/API:** **MockAPI** & **LocalStorage**
+* **Image Hosting:** **imgBB API**
+
+## 📂 Project Structure
+
+├── index.html                # Home page (Product display & Role switch)
+├── product-details.html      # Individual product view
+├── checkout.html             # Cart management & Checkout flow
+├── css/                      # Dedicated folder for styles
+│   ├── style.css             # Home & Global styles
+│   ├── product_details.css   # Styles for details page
+│   └── checkout.css          # Styles for checkout page
+├── js/                       # Business logic folder
+│   ├── main.js               # Global logic, Product rendering & Role management
+│   ├── product_details.js    # Logic for fetching & displaying specific products
+│   └── checkout.js           # Logic for cart calculations & Mock API sync
+├── img/                      # Assets & Icons
+└── README.md                 # Documentationি
+
 
 ## 🚀 How to Run Locally
 1. Clone the repository: 
