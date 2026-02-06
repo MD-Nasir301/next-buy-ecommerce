@@ -18,7 +18,7 @@ NextBuy is a dynamic, role-based e-commerce platform built with vanilla JavaScri
 * **Image Hosting:** **imgBB API**
 
 ## 📂 Project Structure
-
+```text
 ├── index.html                # Home page (Product display & Role switch)
 ├── product-details.html      # Individual product view
 ├── checkout.html             # Cart management & Checkout flow
