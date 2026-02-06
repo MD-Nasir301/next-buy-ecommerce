@@ -1,11 +1,13 @@
 window.addEventListener("DOMContentLoaded", () => {
   let api_url = "https://6973a4f4b5f46f8b5827ea6b.mockapi.io/nbk-bazar";
 
+  const roleSelectorEL = document.getElementById("role-selector");
   const cartDiplayWrapper = document.querySelector(".cart-items-list");
   const productDisplayArea = document.querySelector(".product-container");
   const cartBadgeUI = document.getElementById("cartBadge");
   const cartTotalUI = document.getElementById("cartTotal");
   const checkoutBtn = document.getElementById("checkout");
+  const filterEL = document.getElementById("categoryFilter");
   const sortEl = document.getElementById("sort");
   const productForm = document.getElementById("productForm");
   const formArea = document.getElementById("form-area");
@@ -33,7 +35,7 @@ window.addEventListener("DOMContentLoaded", () => {
   let isAdmin = userRole == "admin";
 
   async function init() {
-    roleSelector(userRole);
+    handleRoleSelector(userRole);
     await getAllProducts();
     syncCart();
     if (category) {
@@ -42,32 +44,8 @@ window.addEventListener("DOMContentLoaded", () => {
     }
     document.getElementById("role-selector").value = userRole;
   }
+
   init();
-
-  document.getElementById("role-selector").addEventListener("change", (e) => {
-    roleSelector(e.target.value);
-  });
-
-  function roleSelector(option) {
-    if (option == "admin") {
-      isAdmin = true;
-      localStorage.setItem("userRole", "admin");
-      displayProducts(allProducts);
-      document.querySelector("aside").classList.remove("d-none");
-      document.querySelector("aside").classList.remove("opacity-0");
-      document
-        .querySelector(".custom-for-admin")
-        .classList.remove("justify-content-center");
-    } else {
-      isAdmin = false;
-      localStorage.setItem("userRole", "user");
-      displayProducts(allProducts);
-      document.querySelector("aside").classList.add("d-none");
-      document
-        .querySelector(".custom-for-admin")
-        .classList.add("justify-content-center");
-    }
-  }
 
   // Fetch products from API on page load ------------------------***
   async function getAllProducts() {
@@ -304,7 +282,7 @@ window.addEventListener("DOMContentLoaded", () => {
         let productInCartIndex = cartItems.findIndex(
           (p) => p.id == productInCart.id,
         );
-        cartItems.splice(productInCartIndex, 1); // প্রোডাক্টটি সাবার উপরে দেখানোর জন্য প্রথমে অ্যারে থেকে রিমোভ করা হচ্ছে
+        cartItems.splice(productInCartIndex, 1); // প্রোডাক্টটি সাবার উপরে দেখানোর জন্য প্রথমে অ্যারে থেকে রিমোভ করা হচ্ছে।
         productInCart.quantity += 1;
         cartItems.unshift(productInCart);
       } else {
@@ -486,11 +464,9 @@ window.addEventListener("DOMContentLoaded", () => {
         : html;
   }
 
-  document
-    .getElementById("categoryFilter")
-    .addEventListener("change", function (e) {
-      filterProducts(e.target.value);
-    });
+  filterEL.addEventListener("change", function (e) {
+    filterProducts(e.target.value);
+  });
 
   // Filter products by category ------------------------***
   function filterProducts(category) {
@@ -615,8 +591,7 @@ window.addEventListener("DOMContentLoaded", () => {
     }, 4000);
   }
 
-  cancelBtn.addEventListener("click", clearFormAndUI);
-  // Check url for e
+  // Handle search focus based on URL parameters
   window.onload = function () {
     const param = new URLSearchParams(this.window.location.search);
     if (param.get("focusSearch") === "true") {
@@ -624,6 +599,37 @@ window.addEventListener("DOMContentLoaded", () => {
       productDisplayArea.innerHTML = " ";
     }
   };
+
+  roleSelectorEL.addEventListener("change", (e) => {
+    handleRoleSelector(e.target.value);
+  });
+  cancelBtn.addEventListener("click", clearFormAndUI);
+
+  // Handle Role selector function
+  function handleRoleSelector(option) {
+    if (option == "admin") {
+      isAdmin = true;
+      localStorage.setItem("userRole", "admin");
+      displayProducts(allProducts);
+      document.querySelector("aside").classList.remove("d-none");
+      document.querySelector("aside").classList.remove("opacity-0");
+      document
+        .querySelector(".custom-for-admin")
+        .classList.remove("justify-content-center");
+      filterEL.value = "category";
+      sortEl.value = "sort";
+    } else {
+      isAdmin = false;
+      localStorage.setItem("userRole", "user");
+      displayProducts(allProducts);
+      document.querySelector("aside").classList.add("d-none");
+      document
+        .querySelector(".custom-for-admin")
+        .classList.add("justify-content-center");
+      filterEL.value = "category";
+      sortEl.value = "sort";
+    }
+  }
 
   //====================================
   // gsap animations here
