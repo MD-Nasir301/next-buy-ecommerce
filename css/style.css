@@ -265,6 +265,11 @@ main {
   font-weight: 600;
 }
 /* card area  */
+.product-container {
+  display: grid;
+   grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+   gap: 23px;
+}
 .card-area {
   background: #ffffff;
   border-radius: 5px;
@@ -277,7 +282,8 @@ main {
   transition: all 0.5s ease;
 }
 .card-img {
-  height: 120px;
+  min-height: 120px;
+  aspect-ratio: 16/9;
   overflow: hidden;
   background:
     linear-gradient(rgba(230, 224, 224, 0.5), rgba(105, 32, 32, 0.7)),

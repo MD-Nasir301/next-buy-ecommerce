@@ -401,7 +401,7 @@ window.addEventListener("DOMContentLoaded", () => {
     let html = products
       .map((p) => {
         return `
-                <div data-id=${p.id} class="card-area  col-md-3">
+                <div data-id=${p.id} class="card-area">
                 <div class="card shadow">
                   <div class="card-img">
                   <a href="product_details.html?id=${p.id}">
