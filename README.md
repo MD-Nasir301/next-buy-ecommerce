@@ -32,7 +32,7 @@ NextBuy is a dynamic, role-based e-commerce platform built with vanilla JavaScri
 │   └── checkout.js           # Logic for cart calculations & Mock API sync
 ├── img/                      # Assets & Icons
 └── README.md                 # Documentation
-
+```
 
 ## 🚀 How to Run Locally
 1. Clone the repository: 
