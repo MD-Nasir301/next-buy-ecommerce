@@ -91,7 +91,9 @@ p {
 /* ===========================================================
    End of Stylesheet
    =========================================================== */
-
+.mobile-view {
+  position: relative;
+}
 .theme-gradient {
   background: #ed2121;
   background: linear-gradient(
@@ -116,6 +118,9 @@ p {
   outline: none;
 }
 .logo {
+  max-width: 60px;
+  min-width: 40px;
+  width: 100%;
   border-radius: 5px;
 }
 .cart-wrapper {
@@ -143,7 +148,7 @@ ul.cart-items-list {
   padding: 0;
   overflow-y: auto;
   overflow-x: hidden;
-  max-height: 365px;
+  max-height: 300px;
   scrollbar-width: thin;
 }
 .cart-item {
@@ -192,7 +197,20 @@ ul.cart-items-list {
   padding: 5px 0;
   font-weight: bold;
 }
-
+.mobile-collapse {
+  position: relative;
+}
+.mobile-filter {
+  right: -500px;
+  transition: .6s;
+}
+.mobile-search {
+  right: -500px;
+  transition: .6s;
+}
+.mobile-menu-show {
+  right: 10px;
+}
 main {
   display: flex;
   flex-grow: 1;

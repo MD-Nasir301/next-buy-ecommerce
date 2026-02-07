@@ -21,6 +21,12 @@ window.addEventListener("DOMContentLoaded", () => {
   const submitBtn = document.getElementById("submit");
   const cancelBtn = document.getElementById("cancel");
   const toastBox = document.getElementById("toast");
+  const menuBtn  = document.querySelector('.menu-btn')
+
+  menuBtn.addEventListener("click", ()=> {
+    document.querySelector('.mobile-filter').classList.toggle("mobile-menu-show")
+    document.querySelector('.mobile-search').classList.toggle("mobile-menu-show")
+  })
 
   let cartItems = JSON.parse(localStorage.getItem("userCart") || "[]");
   let userRole = localStorage.getItem("userRole") || "user";
@@ -315,13 +321,13 @@ window.addEventListener("DOMContentLoaded", () => {
         let price = p.newPrice > 0 ? p.newPrice : p.price;
         return `
      <li data-id="${p.id}" class="cart-item row align-items-center">
-      <div class="col-md-2">
+      <div class="col-2">
         <img src="${p.image}" class="cart-item-img" alt="product" />
       </div>
-      <div class="col-md-4">
+      <div class="col-4">
         <span class="cart-item-name text-success fw-bold" ">${p.name}</span>
       </div>
-      <div class="col-md-2 p-0">
+      <div class="col-2 p-0">
           Q:
           <input
             class="quantity-input"
@@ -333,7 +339,7 @@ window.addEventListener("DOMContentLoaded", () => {
             type="number"
           />
       </div>
-      <div class="col-md-4 d-flex  justify-content-between ">
+      <div class="col-4 d-flex  justify-content-between ">
         <span class="fw-bold cart-item-price">${p.quantity * price} /= </span>
         <button class="cart-item-remove  btn btn-close"></button>
       </div>

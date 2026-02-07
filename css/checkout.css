@@ -6,3 +6,7 @@ ul#summary-items {
   background: rgba(220, 220, 223, 0.434);
   padding: 3px 15px;
 }
+main {
+  overflow-y: scroll;
+  margin-bottom: 20px;
+}

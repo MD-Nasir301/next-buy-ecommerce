@@ -47,6 +47,7 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
   </head>
 
   <body>
@@ -60,17 +61,23 @@
       <!-- Search filter short pagination -->
       <nav>
         <div class="container">
-          <div class="row">
-            <div class="col-2">
-              <select name="role-selector" id="role-selector">
-                <option value="user">User</option>
-                <option value="admin">Admin</option>
-              </select>
-              <a href="index.html" class="ms-3"
-                ><img src="img/logo.jpg" width="60px" alt="" class="logo"
-              /></a>
+          <div class="row mobile-collapse">
+            <div class="col-lg-2 col-4">
+              <div class="row">
+                <div class="col-6 d-flex align-items-center">
+                  <select name="role-selector" id="role-selector">
+                    <option value="user">User</option>
+                    <option value="admin">Admin</option>
+                  </select>
+                </div>
+                <div class="col-6">
+                  <a href="index.html" class="ms-3"
+                    ><img src="img/logo.jpg" alt="" class="logo"
+                  /></a>
+                </div>
+              </div>
             </div>
-            <div class="col-4">
+            <div class="col-4 mobile-search ">
               <form action="index.html">
                 <input
                   id="searchProduct"
@@ -81,7 +88,7 @@
                 />
               </form>
             </div>
-            <div class="col-2">
+            <div class="col-lg-2 col-6">
               <div
                 class="cart-wrapper d-flex justify-content-center h-100 gap-2 text-white align-items-center"
               >
@@ -102,8 +109,9 @@
                 </div>
               </div>
             </div>
-            <div class="col-4">
-              <div class="filter-area d-flex gap-2">
+
+            <div class="col-4 mobile-filter">
+              <div class="filter-area  d-flex gap-2">
                 <select
                   class="form-select form-select-sm bg-info"
                   id="categoryFilter"
@@ -131,6 +139,9 @@
                   <option value="maxDiscount">Maximum Discount</option>
                 </select>
               </div>
+            </div>
+            <div class="col-auto">
+              <div class="menu-btn d-lg-none fw-bolder text-white">|||</div>
             </div>
           </div>
         </div>
@@ -252,8 +263,6 @@
             </p>
           </div>
         </div>
-
-        
       </div>
     </footer>
 
