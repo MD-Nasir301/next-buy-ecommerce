@@ -64,20 +64,21 @@
           <div class="row mobile-collapse">
             <div class="col-lg-2 col-4">
               <div class="row">
-                <div class="col-6 d-flex align-items-center">
-                  <select name="role-selector" id="role-selector">
+                <div class="col-8 d-flex align-items-center justify-content-around">
+                    <div class="mobile-form-btn fw-bold text-white d-lg-none"><i class="fa fa-plus"></i></div>
+                  <select name="role-selector" id="role-selector" class="">
                     <option value="user">User</option>
                     <option value="admin">Admin</option>
                   </select>
                 </div>
-                <div class="col-6">
+                <div class="col-4">
                   <a href="index.html" class="ms-3"
                     ><img src="img/logo.jpg" alt="" class="logo"
                   /></a>
                 </div>
               </div>
             </div>
-            <div class="col-4 mobile-search ">
+            <div class="col-4 mobile-search ps-5">
               <form action="index.html">
                 <input
                   id="searchProduct"
@@ -88,7 +89,7 @@
                 />
               </form>
             </div>
-            <div class="col-lg-2 col-6">
+            <div class="col-lg-2 col-5">
               <div
                 class="cart-wrapper d-flex justify-content-center h-100 gap-2 text-white align-items-center"
               >
@@ -111,7 +112,7 @@
             </div>
 
             <div class="col-4 mobile-filter">
-              <div class="filter-area  d-flex gap-2">
+              <div class="filter-area d-flex gap-2">
                 <select
                   class="form-select form-select-sm bg-info"
                   id="categoryFilter"
@@ -153,7 +154,7 @@
     <main id="main-content" class="mt-5 h-100">
       <div class="container-fluid h-100">
         <div class="d-flex custom-for-admin gap-3 h-100">
-          <aside class="aside mt-4 opacity-0" id="aside">
+          <aside class="aside mt-4 opacity-0 " id="aside">
             <div class="form-area" id="form-area">
               <form action="" id="productForm">
                 <div class="label-group">
@@ -244,7 +245,7 @@
               </form>
             </div>
           </aside>
-          <section class="product-display-area col-md-9 mt-4 pb-4">
+          <section class="product-display-area col-12 col-lg-9  mt-4 pb-4">
             <div class="product-container pb-4 g-4 d-grid"></div>
           </section>
         </div>
@@ -289,7 +290,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
-    <!-- Custom JS --> 
+    <!-- Custom JS -->
     <script src="js/main.js"></script>
   </body>
 </html>

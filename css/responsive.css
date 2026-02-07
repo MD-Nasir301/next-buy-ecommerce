@@ -1,9 +1,9 @@
-@media  (max-width: 991.95px) {
+@media (max-width: 991.95px) {
+ 
   .mobile-filter {
     flex-direction: column;
     position: absolute;
     width: 50%;
-   
     top: 250%;
     background: #e19191;
     padding: 20px;
@@ -23,7 +23,13 @@
     top: 5px;
     left: 90%;
   }
-
+  .aside {
+    position: absolute;
+    z-index: 1000;
+    max-width: 300px;
+    left: -500px;
+    transition: 0.5s;
+  }
 }
 
 @media (max-width: 691px) {

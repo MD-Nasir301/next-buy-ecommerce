@@ -23,7 +23,6 @@ body {
   height: 100%;
   margin: 0;
 }
-
 /* ========== RESET & BASE ========== */
 /* Reset default browser styles and set base font */
 * {
@@ -31,7 +30,6 @@ body {
   padding: 0;
   box-sizing: border-box;
 }
-
 body {
   font-family: "Roboto", sans-serif;
   font-weight: 400;
@@ -88,10 +86,7 @@ p {
 /* ========== MAIN CSS START HERE ========== */
 /* Add your custom styles below this line */
 
-/* ===========================================================
-   End of Stylesheet
-   =========================================================== */
-.mobile-view {
+.mobile-collapse {
   position: relative;
 }
 .theme-gradient {
@@ -185,7 +180,6 @@ ul.cart-items-list {
   color: rgb(255, 255, 255);
   box-shadow: -4px 6px 11px #de2525;
 }
-
 .cart-footer {
   border-top: 1px solid #e8dddd;
   padding: 10px 0;
@@ -216,7 +210,6 @@ main {
   flex-grow: 1;
   overflow: hidden;
 }
-
 .aside {
   width: 350px;
   height: calc(100dvh - 113px);
@@ -229,7 +222,11 @@ main {
   );
   padding: 10px;
 }
-/* form area  */
+/* form area -----------  */
+
+.mobile-form-show {
+  left: 10px !important;
+}
 .form-area {
   background: #ecebec;
   background: linear-gradient(

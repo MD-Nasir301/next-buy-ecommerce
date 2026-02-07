@@ -22,10 +22,14 @@ window.addEventListener("DOMContentLoaded", () => {
   const cancelBtn = document.getElementById("cancel");
   const toastBox = document.getElementById("toast");
   const menuBtn  = document.querySelector('.menu-btn')
+  const mobileFormBtn  = document.querySelector('.mobile-form-btn')
 
   menuBtn.addEventListener("click", ()=> {
     document.querySelector('.mobile-filter').classList.toggle("mobile-menu-show")
     document.querySelector('.mobile-search').classList.toggle("mobile-menu-show")
+  })
+  mobileFormBtn.addEventListener("click", ()=> {
+    document.querySelector("aside").classList.toggle("mobile-form-show")
   })
 
   let cartItems = JSON.parse(localStorage.getItem("userCart") || "[]");
