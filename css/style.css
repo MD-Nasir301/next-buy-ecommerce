@@ -267,8 +267,8 @@ main {
 /* card area  */
 .product-container {
   display: grid;
-   grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-   gap: 23px;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 23px;
 }
 .card-area {
   background: #ffffff;
@@ -292,6 +292,17 @@ main {
   background-position: center;
   position: relative;
 }
+.card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+.card-img img:hover {
+  transform: scale(1.1);
+}
 .view-details {
   position: absolute;
   background: #2f1e1e8c;
@@ -307,16 +318,6 @@ main {
   display: block;
 }
 
-.card-img img {
-  max-width: 100%;
-  object-fit: cover;
-  object-position: center;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-}
-.card-img img:hover {
-  transform: scale(1.1);
-}
 .card-info h5 {
   color: rgba(0, 0, 128, 0.673);
   font-weight: 600;
@@ -343,9 +344,10 @@ i.fa-solid {
 .skeleton-card {
   background: #eee;
   border-radius: 10px;
-  height: 300px; /* আপনার আসল কার্ডের সমান উচ্চতা */
+  height: 300px; 
   position: relative;
   overflow: hidden;
+  min-width: 210px;
 }
 .skeleton-image {
   width: 100%;
