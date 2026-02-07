@@ -202,11 +202,11 @@ ul.cart-items-list {
 }
 .mobile-filter {
   right: -500px;
-  transition: .6s;
+  transition: 0.6s;
 }
 .mobile-search {
   right: -500px;
-  transition: .6s;
+  transition: 0.6s;
 }
 .mobile-menu-show {
   right: 10px;
@@ -280,6 +280,7 @@ main {
   height: 100%;
   color: var(--text-black);
   margin-top: -100px;
+  grid-column: span 4;
 }
 .no-product-found p {
   font-size: 22px;
