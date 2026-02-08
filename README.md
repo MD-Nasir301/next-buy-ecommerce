@@ -26,6 +26,7 @@ NextBuy is a dynamic, role-based e-commerce platform built with vanilla JavaScri
 │   ├── style.css             # Home & Global styles
 │   ├── product_details.css   # Styles for details page
 │   └── checkout.css          # Styles for checkout page
+    └── responsive.css        # Styles for responsive layout
 ├── js/                       # Business logic folder
 │   ├── main.js               # Global logic, Product rendering & Role management
 │   ├── product_details.js    # Logic for fetching & displaying specific products
