@@ -1,10 +1,9 @@
 @media (max-width: 991.95px) {
- 
   .mobile-filter {
     flex-direction: column;
     position: absolute;
     width: 50%;
-    top: 250%;
+    top: 270%;
     background: #e19191;
     padding: 20px;
     z-index: 1000;
@@ -37,7 +36,7 @@
     max-width: 270px;
   }
   .mobile-filter {
-    top: 252%;
+    top: 282%;
     width: 60%;
   }
   .mobile-search {
@@ -60,10 +59,10 @@
   }
   .mobile-filter {
     top: 320%;
-    width: 80%;
+    width: 90%;
   }
   .mobile-search {
     top: 120%;
-    width: 80%;
+    width: 90%;
   }
 }

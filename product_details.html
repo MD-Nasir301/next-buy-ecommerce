@@ -52,6 +52,7 @@
     />
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/product_details.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
   </head>
 
   <body>
@@ -61,31 +62,28 @@
     </a>
 
     <!-- Header Start  ============================================ -->
-
     <header class="bg-danger position-fixed w-100 sticky-top p-2">
       <!-- Search filter short pagination -->
       <nav>
         <div class="container">
-          <div class="row">
-            <div class="col-2">
-              <a href="index.html"
-                ><img src="img/logo.jpg" width="60px" alt="" class="logo"
+          <div class="row mobile-collapse">
+            <div class="col-lg-2 col-4">
+              <a href="index.html" class="ms-3"
+                ><img src="img/logo.jpg" alt="" class="logo"
               /></a>
             </div>
-            <div class="col-4 mt-1">
-              <a
-                href="index.html?focusSearch=true"
-                class="text-decoration-none"
-              >
+            <div class="col-4 mobile-search ps-5 mt-2">
+              <form action="index.html">
                 <input
                   id="searchProduct"
                   class="form-control me-2"
                   type="search"
                   placeholder="Search Product"
                   aria-label="Search"
-              /></a>
+                />
+              </form>
             </div>
-            <div class="col-2">
+            <div class="col-lg-2 col-5">
               <div
                 class="cart-wrapper d-flex justify-content-center h-100 gap-2 text-white align-items-center"
               >
@@ -107,14 +105,16 @@
               </div>
             </div>
 
-            <div class="col-2 mt-2 offset-2">
+            <div class="col-2 offset-1 mobile-filter mt-2">
               <div class="filter-area d-flex gap-2">
                 <select
                   class="form-select form-select-sm bg-info"
                   id="categoryFilter"
                   aria-label=".form-select-sm example"
                 >
-                  <option value="" hidden desebled selected>Category</option>
+                  <option value="category" hidden desebled selected>
+                    Category
+                  </option>
                   <option value="all">All</option>
                   <option value="dress">Dress</option>
                   <option value="accessories">Accessories</option>
@@ -132,7 +132,7 @@
     <main id="main-content" class="mt-5 h-100">
       <div class="container mt-5">
         <div class="row product-details-area"></div>
-        <div class="row">
+        <div class="row text-white pb-4">
           <div class="col-md-6">
             <div class="rating-wrapper">
               <div class="mb-2 mt-2">

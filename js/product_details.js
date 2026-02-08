@@ -9,6 +9,7 @@ window.document.addEventListener("DOMContentLoaded", () => {
   const cartTotalUI = document.getElementById("cartTotal");
   const toastBox = document.getElementById("toast");
 
+
   let cartItems = JSON.parse(localStorage.getItem("userCart")) || [];
   const param = new URLSearchParams(window.location.search);
   const productID = param.get("id");
@@ -59,7 +60,8 @@ window.document.addEventListener("DOMContentLoaded", () => {
                 <p class="mb-1">
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Temporibus aliquid laborum voluptate corporis sequi saepe et
-                  iste tenetur molestias soluta, voluptates placeat fugit nam
+                  iste ttes placeat fugit nam
+                  Temporibus aliquidta, voluptates placeat fugit nam
                   iure obcaecati ipsa delectus, rem sit!
                 </p>
                 <ul class="list-unstyled">
@@ -114,13 +116,13 @@ window.document.addEventListener("DOMContentLoaded", () => {
         let price = p.newPrice > 0 ? p.newPrice : p.price;
         return `
      <li data-id="${p.id}" class="cart-item row align-items-center">
-      <div class="col-md-2">
+      <div class="col-2">
         <img src="${p.image}" class="cart-item-img" alt="product" />
       </div>
-      <div class="col-md-4">
+      <div class="col-4">
         <span class="cart-item-name text-success fw-bold" ">${p.name}</span>
       </div>
-      <div class="col-md-2 p-0">
+      <div class="col-2 p-0">
           Q:
           <input
             class="quantity-input"
@@ -132,7 +134,7 @@ window.document.addEventListener("DOMContentLoaded", () => {
             type="number"
           />
       </div>
-      <div class="col-md-4 d-flex  justify-content-between ">
+      <div class="col-4 d-flex  justify-content-between ">
         <span class="fw-bold cart-item-price">${p.quantity * price} /= </span>
         <button class="cart-item-remove  btn btn-close"></button>
       </div>

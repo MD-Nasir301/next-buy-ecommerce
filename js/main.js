@@ -21,16 +21,8 @@ window.addEventListener("DOMContentLoaded", () => {
   const submitBtn = document.getElementById("submit");
   const cancelBtn = document.getElementById("cancel");
   const toastBox = document.getElementById("toast");
-  const menuBtn  = document.querySelector('.menu-btn')
-  const mobileFormBtn  = document.querySelector('.mobile-form-btn')
-
-  menuBtn.addEventListener("click", ()=> {
-    document.querySelector('.mobile-filter').classList.toggle("mobile-menu-show")
-    document.querySelector('.mobile-search').classList.toggle("mobile-menu-show")
-  })
-  mobileFormBtn.addEventListener("click", ()=> {
-    document.querySelector("aside").classList.toggle("mobile-form-show")
-  })
+  const menuBtn = document.querySelector(".menu-btn");
+  const mobileFormBtn = document.querySelector(".mobile-form-btn");
 
   let cartItems = JSON.parse(localStorage.getItem("userCart") || "[]");
   let userRole = localStorage.getItem("userRole") || "user";
@@ -615,6 +607,19 @@ window.addEventListener("DOMContentLoaded", () => {
   });
   cancelBtn.addEventListener("click", clearFormAndUI);
 
+  menuBtn.addEventListener("click", () => {
+    document
+      .querySelector(".mobile-filter")
+      .classList.toggle("mobile-menu-show");
+    document
+      .querySelector(".mobile-search")
+      .classList.toggle("mobile-menu-show");
+  });
+
+  mobileFormBtn.addEventListener("click", () => {
+    document.querySelector("aside").classList.toggle("mobile-form-show");
+  });
+
   // Handle Role selector function
   function handleRoleSelector(option) {
     if (option == "admin") {
@@ -628,6 +633,7 @@ window.addEventListener("DOMContentLoaded", () => {
         .classList.remove("justify-content-center");
       filterEL.value = "category";
       sortEl.value = "sort";
+      mobileFormBtn.style.display = "block";
     } else {
       isAdmin = false;
       localStorage.setItem("userRole", "user");
@@ -638,6 +644,7 @@ window.addEventListener("DOMContentLoaded", () => {
         .classList.add("justify-content-center");
       filterEL.value = "category";
       sortEl.value = "sort";
+      mobileFormBtn.style.display = "none";
     }
   }
 
